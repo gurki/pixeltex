@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PixelTex</title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" type="text/css" href="common.css"/>
+        <link rel="stylesheet" type="text/css" href="pixeltex.css"/>
+    </head>
+    <body>
+        <div id="app">
+            <div class="pixeltex-container">
+                <h1 class="title">PIXELTEX</h1>
+                <div class="subtitle">a tex renderer based on the 3x4 gentfont</div>
+                <div class="tex-container">
+                    <textarea
+                        id="tex-input"
+                        v-model="input"
+                        @input="inputChanged"
+                        placeholder="\left( \frac{x_i}{\sqrt{y}} \right) \cos x^2"
+                        autofocus
+                    ></textarea>
+                    <div id="tex-output">
+                        <canvas id="tex-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type=module src=pixeltex.js></script>
+    </body>
+</html>

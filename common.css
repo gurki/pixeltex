@@ -1,0 +1,32 @@
+html {
+    height: 100%;
+}
+
+body {
+    font-family: Helvetica Neue, Arial, sans-serif;
+    font-size: 14px;
+    color: #FCFEFA;
+    background: #303441;
+    margin: 10%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+::placeholder {
+    color: #787f97;
+    opacity: 0.5;
+}
+
+.title {
+    font-size: 3em;
+    color: #fffa6b;
+}
+
+.subtitle {
+    margin-top: -2em;
+    margin-bottom: 2em;
+    color: #787f97;
+}

@@ -1,0 +1,30 @@
+.pixeltex-container {
+    width: 90%;
+    max-width: 1400px;
+    min-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.tex-container {
+    display: grid;
+    grid-template-rows: 200px 100%;
+    gap: 10px;
+}
+
+#tex-input {
+    font-size: 1.5em;
+    resize: none;
+    border-radius: 3px;
+    background-color: #454b61;
+    border-width: 0;
+    color: #d1d5e0;
+    padding: 10px;
+    outline: none;
+    box-shadow: 0 0 10px #191d27;
+}
+
+#tex-output {
+    border-radius: 3px;
+    position: relative;
+}

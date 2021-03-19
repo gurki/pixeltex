@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GentFont</title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" type="text/css" href="common.css"/>
+        <link rel="stylesheet" type="text/css" href="minigent.css"/>
+    </head>
+    <body>
+        <div id="app">
+            <div class="minigent-container">
+                <h1 class="title">MINIGENT</h1>
+                <div class="subtitle">a 3x4 pixel font for miniature typesetting</div>
+                <div v-for="(set, key) in font">
+                    <h1>{{key}}</h1>
+                    <div class="set-container">
+                        <letter-item
+                            class="letter-container"
+                            v-for="(letter, key) in set"
+                            v-bind:key="key"
+                            v-bind:letter="letter"
+                        ></letter-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type=module src=minigent.js></script>
+    </body>
+</html>
