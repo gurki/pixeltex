@@ -1,5 +1,5 @@
 import { GentFont } from './font.js'
-import { tokenize } from './tokenizer.js'
+import * as Tokenizer from './tokenizer.js'
 
 
 var app = new Vue({
@@ -29,7 +29,10 @@ var app = new Vue({
 
             for ( const line of lines ) {
 
-                const tokens = tokenize( line, this.codes );
+                const tokens = Tokenizer.tokenize( line, this.codes );
+
+                console.log( ...tokens );
+
 
                 y += 1;
 
@@ -39,7 +42,14 @@ var app = new Vue({
 
                 for ( const token of tokens ) {
 
-                    const letter = this.font[ token.type ][ token.data ];
+                    if ( token.type == Tokenizer.Types.SPACE ) {
+                        x += 3;
+                        continue;
+                    }
+
+                    if ( ! ( token.type in GentFont ) ) continue;
+
+                    const letter = GentFont[ token.type ][ token.data ];
                     const cols = ( letter.bits.length >= 12 ) ? 3 : 2;
                     const rows = ( letter.bits.length / cols );
 
@@ -104,8 +114,8 @@ var app = new Vue({
         this.ctx.fillStyle = "#454b61";
         this.ctx.fillRect( 0, 0, canvas.clientWidth, canvas.clientHeight );
 
-        for ( const category in this.font ) {
-            const cats = this.font[ category ];
+        for ( const category in GentFont ) {
+            const cats = GentFont[ category ];
             for ( const key in cats ) {
                 const letter = cats[ key ];
                 if ( ! ( "code" in letter ) ) continue;
