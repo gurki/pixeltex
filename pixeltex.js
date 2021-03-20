@@ -33,7 +33,6 @@ var app = new Vue({
 
                 console.log( ...tokens );
 
-
                 y += 1;
 
                 let coords = [];

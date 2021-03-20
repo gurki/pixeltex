@@ -27,11 +27,22 @@ const Commands = {
     "\\right": Types.CLOSE,
     "\\frac": Types.FRACTION,
     "\\overline": Types.OVER,
+    "\\overtilde": Types.OVER,
+    "\\overbrace": Types.OVER,
+    "\\overarrow": Types.OVER,
+    "\\overhat": Types.OVER,
     "\\underline": Types.UNDER,
+    "\\undertilde": Types.UNDER,
+    "\\underbrace": Types.UNDER,
+    "\\underarrow": Types.UNDER,
+    "\\underhat": Types.UNDER,
 }
+
+const Braces = [ '{', '}', '(', ')', '[', ']', '<', '>' ]
 
 Object.freeze( Types );
 Object.freeze( Commands );
+Object.freeze( Braces );
 
 
 export function isSymbol( type ) {
@@ -80,22 +91,41 @@ export function tokenize( text, codes ) {
         }
         else if ( c == '\\' ) {
 
+            //  tex commands
+
             let res = findCode( text, Object.keys( Commands ), i );
 
             if ( res ) {
 
-                let data = undefined;
-                if ( res.includes( "line" ) ) data = '-';
-                if ( res.includes( "tilde" ) ) data = '~';
-                if ( res.includes( "hat" ) ) data = '^';
-                if ( res.includes( "brace" ) ) data = '{';
-                if ( res.includes( "arrow" ) ) data = '>';
-                tokens.push( { type: Commands[ res ], data: data } );
+                const key = res.substring( 1 );
 
-                i += res.length - 1;
-                continue;
+                //  left/right
+                if ( [ "left", "right" ].includes( key ) ) {
+                    //  only valid if followed by actual brace symbol
+                    const sym = text[ i + res.length ];
+                    if ( Braces.includes( sym ) ) {
+                        tokens.push( { type: Commands[ res ], data: sym } );
+                        i += res.length;
+                        continue;
+                    }
+                }
+                //  frac/over/under
+                else {
+                    let data = undefined;
+                    if ( key.includes( "line" ) ) data = '-';
+                    else if ( key.includes( "tilde" ) ) data = '~';
+                    else if ( key.includes( "hat" ) ) data = '^';
+                    else if ( key.includes( "brace" ) ) data = '{';
+                    else if ( key.includes( "arrow" ) ) data = '>';
+                    tokens.push( { type: Commands[ res ], data: data } );
+
+                    i += res.length - 1;
+                    continue;
+                }
 
             }
+
+            //  font commands (e.g. \alpha)
 
             res = findCode( text, Object.keys( codes ), i );
 
@@ -104,8 +134,6 @@ export function tokenize( text, codes ) {
                 const key = res.substring( 1 );
                 const type = keyType( key );
                 tokens.push( { type: type, data: key } );
-
-                console.log( res, key, type );
 
                 i += res.length - 1;
                 continue;
@@ -116,18 +144,10 @@ export function tokenize( text, codes ) {
 
         }
 
-        if ( c in GentFont[ Types.LETTER ] ) {
-            tokens.push( { type: Types.LETTER, data: c } );
-        }
-        else if ( c in GentFont[ Types.NUMERAL ] ) {
-            tokens.push( { type: Types.NUMERAL, data: c } );
-        }
-        else if ( c in GentFont[ Types.PUNCTUATION ] ) {
-            tokens.push( { type: Types.PUNCTUATION, data: c } );
-        }
-        else if ( c in GentFont[ Types.MATH ] ) {
-            tokens.push( { type: Types.MATH, data: c } );
-        }
+        if ( c in GentFont[ Types.LETTER ] ) tokens.push( { type: Types.LETTER, data: c } );
+        else if ( c in GentFont[ Types.NUMERAL ] ) tokens.push( { type: Types.NUMERAL, data: c } );
+        else if ( c in GentFont[ Types.PUNCTUATION ] ) tokens.push( { type: Types.PUNCTUATION, data: c } );
+        else if ( c in GentFont[ Types.MATH ] ) tokens.push( { type: Types.MATH, data: c } );
 
     }
 
@@ -137,11 +157,15 @@ export function tokenize( text, codes ) {
 
 
 function isSubMatch( text, search, textStart = 0 ) {
+
     if ( textStart + search.length > text.length ) return false;
+
     for ( let i = 0; i < search.length; i++ ) {
         if ( text[ textStart + i ] !== search[ i ] ) return false;
     }
+
     return true;
+
 }
 
 

@@ -107,6 +107,7 @@ export const GentFont = {
         'cdot': { bits: [0,0,0,0,0,0,0,1,0,0,0,0], unicode: "U+2219", name: "Bullet Operator", symbol: '∙', code: "\\cdot" },
         'sum': { bits: [1,1,1,1,0,0,0,1,0,1,1,1,], unicode: "U+2211", name: "N-Ary Summation", symbol: '∑', code: "\\sum" },
         'prod': { bits: [1,1,1,1,0,1,1,0,1,1,0,1], unicode: "U+220F", name: "N-Ary Product", symbol: '∏', code: "\\prod" },
+        'sqrt': { bits: [0,1,1,0,1,0,1,1,0,0,1,0], unicode: "U+221A", name: "Square Root", symbol: '√', code: "\\sqrt" },
     },
     "Greek Alphabet": {
         'Alpha': { bits: [1,1,1,1,0,1,1,1,1,1,0,1], unicode: "U+03", name: "Greek Capital Letter Alpha", symbol: 'Α', code: "\\Alpha" },
