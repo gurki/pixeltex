@@ -1,5 +1,6 @@
 import { GentFont } from './font.js'
 import * as Tokenizer from './tokenizer.js'
+import * as Parser from './parser.js'
 
 
 var app = new Vue({
@@ -30,8 +31,8 @@ var app = new Vue({
             for ( const line of lines ) {
 
                 const tokens = Tokenizer.tokenize( line, this.codes );
-
-                console.log( ...tokens );
+                const ast = Parser.buildAST( tokens );
+                console.log( ...ast );
 
                 y += 1;
 

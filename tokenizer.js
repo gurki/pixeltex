@@ -20,6 +20,7 @@ export const Types = {
     UNDER: "Under",
     START: "Start",
     END: "End",
+    FUNCTION: "Function"
 };
 
 const Commands = {
@@ -38,15 +39,27 @@ const Commands = {
     "\\underhat": Types.UNDER,
 }
 
+const Functions = [ "\\cos", "\\sin", "\\tan", "\\cosh", "\\sinh", "\\tanh", "\\acos", "\\asin", "\\atan", "\\ln", "\\log", "\\ld", "\\exp" ];
 const Braces = [ '{', '}', '(', ')', '[', ']', '<', '>' ]
 
 Object.freeze( Types );
 Object.freeze( Commands );
+Object.freeze( Functions );
 Object.freeze( Braces );
 
 
 export function isSymbol( type ) {
     return type in GentFont;
+}
+
+
+export function isVariable( type ) {
+    return [
+        Types.LETTER,
+        Types.GREEK_LETTER,
+        Types.SMILEY,
+        Types.EMOJI
+    ].includes( type );
 }
 
 
@@ -68,7 +81,7 @@ export function tokenize( text, codes ) {
 
         const c = text[ i ];
 
-        if ( c == ' ' ) { tokens.push( { type: Types.SPACE, data: ' ' } ); continue; }
+        if ( c == ' ' ) { tokens.push( { type: Types.SPACE } ); continue; }
         else if ( c == '{' ) { tokens.push( { type: Types.START } ); continue; }
         else if ( c == '}' ) { tokens.push( { type: Types.END } ); continue; }
         else if ( c == '^' ) { tokens.push( { type: Types.SUPERSCRIPT } ); continue; }
@@ -123,6 +136,17 @@ export function tokenize( text, codes ) {
                     continue;
                 }
 
+            }
+
+            //  functions
+
+            res = findCode( text, Functions, i );
+
+            if ( res ) {
+                const key = res.substring( 1 );
+                tokens.push( { type: Types.FUNCTION, data: key } );
+                i += res.length - 1;
+                continue;
             }
 
             //  font commands (e.g. \alpha)

@@ -136,7 +136,7 @@ export const GentFont = {
         'Omega': { bits: [1,1,1,1,0,1,0,1,0,1,1,1], unicode: "U+03", name: "Greek Capital Letter Omega", symbol: 'Ω', code: "\\Omega" },
 
         'alpha': { bits: [0,0,0,0,1,1,1,0,1,0,1,1], unicode: "U+03B1", name: "Greek Small Letter Alpha", symbol: 'α', code: "\\alpha" },
-        'beta': { bits: [1,1,0,1,1,0,1,0,1,1,0,1,0,0], unicode: "U+03", name: "Greek Small Letter Beta", symbol: 'β', code: "\\beta" },
+        'beta': { bits: [1,1,0, 1,1,0, 1,0,1, 1,1,0, 1,0,0], unicode: "U+03", name: "Greek Small Letter Beta", symbol: 'β', code: "\\beta" },
         'gamma': { bits: [0,0,0,1,0,0,1,0,1,1,1,0,0,1,0], unicode: "U+03", name: "Greek Small Letter Gamma", symbol: 'γ', code: "\\gamma" },
         'delta': { bits: [0,0,1,0,1,0,1,0,1,0,1,0], unicode: "U+03", name: "Greek Small Letter Delta", symbol: 'δ', code: "\\delta" },
         'epsilon': { bits: [0,0,0,0,1,1,1,1,0,0,1,1], unicode: "U+03", name: "Greek Small Letter Epsilon", symbol: 'ϵ', code: "\\epsilon" },
