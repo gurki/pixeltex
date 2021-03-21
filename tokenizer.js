@@ -58,7 +58,7 @@ const Functions = [
     "\\sqrt", "\\sum", "\\prod", "\\int"
 ];
 
-const BracketLookup = {
+export const BracketLookup = {
     '(': SubTypes.ROUND,
     ')': SubTypes.ROUND,
     '{': SubTypes.CURLY,
