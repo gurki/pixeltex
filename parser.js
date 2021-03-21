@@ -256,6 +256,7 @@ export function toString( node, indent=0 ) {
     const spacing = ' '.repeat( indent );
     let str = spacing + node.type;
     if ( node.subtype ) str += "(" + node.subtype + ")";
+    else if ( node.type == NodeTypes.COMMAND ) str += "(" + node.token.type + ")";
     else if ( node.token && node.token.data ) str += "(" + node.token.data + ")";
     else if ( node.type != NodeTypes.FRACTION && node.token && node.token.type ) str += "(" + node.token.type + ")";
 
