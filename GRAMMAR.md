@@ -1,11 +1,9 @@
-symbol: LETTER | GREEK_LETTER | NUMERAL | PUNCTUATION | SMILEY | EMOJI | MATH
-word: symbol | symbol word
-argument: START expression END
-command: "\\" word
-script: SUBSCRIPT | SUPERSCRIPT
-optional: script symbol | script argument
-unary: command argument
-fraction: FRACTION argument argument
-brackets: OPEN expression CLOSE
-expression: terminal expression | terminal
-terminal : word | unary | optional | FRACTION | brackets
+symbol      -> LETTER | GREEK_LETTER | NUMERAL | PUNCTUATION | SMILEY | EMOJI | MATH | SPACE
+word        -> symbol [word]
+group       -> OPEN* [expression] CLOSE*
+command     -> FUNCTION | SUBSCRIPT | SUPERSCRIPT | OVER | UNDER
+argument    -> START [expression] END
+unary       -> command ( symbol | argument )
+fraction    -> FRACTION argument argument
+terminal    -> word | argument | group | unary | fraction
+expression  -> terminal [expression]

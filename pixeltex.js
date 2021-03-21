@@ -32,7 +32,7 @@ var app = new Vue({
 
                 const tokens = Tokenizer.tokenize( line, this.codes );
                 const ast = Parser.buildAST( tokens );
-                console.log( ...ast );
+                console.log( ast );
 
                 y += 1;
 

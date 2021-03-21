@@ -3,7 +3,6 @@ import { GentFont, Sets } from "./font.js"
 
 export const Types = {
     SPACE: "Space",
-    SYMBOL: "Symbol",
     LETTER: "Latin Alphabet",
     GREEK_LETTER: "Greek Alphabet",
     NUMERAL: "Numerals",
@@ -23,6 +22,18 @@ export const Types = {
     FUNCTION: "Function"
 };
 
+export const SubTypes = {
+    ROUND: "Round",
+    CURLY: "Curly",
+    SQUARE: "Square",
+    ANGLE: "Angle",
+    LINE: "Line",
+    TILDE: "Tilde",
+    BRACE: "Brace",
+    ARROW: "Arrow",
+    HAT: "Hat",
+};
+
 const Commands = {
     "\\left": Types.OPEN,
     "\\right": Types.CLOSE,
@@ -39,13 +50,30 @@ const Commands = {
     "\\underhat": Types.UNDER,
 }
 
-const Functions = [ "\\cos", "\\sin", "\\tan", "\\cosh", "\\sinh", "\\tanh", "\\acos", "\\asin", "\\atan", "\\ln", "\\log", "\\ld", "\\exp" ];
-const Braces = [ '{', '}', '(', ')', '[', ']', '<', '>' ]
+const Functions = [
+    "\\cos", "\\sin", "\\tan",
+    "\\cosh", "\\sinh", "\\tanh",
+    "\\acos", "\\asin", "\\atan",
+    "\\ln", "\\log", "\\ld", "\\exp",
+    "\\sqrt", "\\sum", "\\prod", "\\int"
+];
+
+const BracketLookup = {
+    '(': SubTypes.ROUND,
+    ')': SubTypes.ROUND,
+    '{': SubTypes.CURLY,
+    '}': SubTypes.CURLY,
+    '[': SubTypes.SQUARE,
+    ']': SubTypes.SQUARE,
+    '<': SubTypes.ANGLE,
+    '>': SubTypes.ANGLE,
+};
 
 Object.freeze( Types );
+Object.freeze( SubTypes );
 Object.freeze( Commands );
 Object.freeze( Functions );
-Object.freeze( Braces );
+Object.freeze( BracketLookup );
 
 
 export function isSymbol( type ) {
@@ -116,8 +144,8 @@ export function tokenize( text, codes ) {
                 if ( [ "left", "right" ].includes( key ) ) {
                     //  only valid if followed by actual brace symbol
                     const sym = text[ i + res.length ];
-                    if ( Braces.includes( sym ) ) {
-                        tokens.push( { type: Commands[ res ], data: sym } );
+                    if ( sym in BracketLookup ) {
+                        tokens.push( { type: Commands[ res ], data: sym, subtype: BracketLookup[ sym ] } );
                         i += res.length;
                         continue;
                     }
