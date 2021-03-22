@@ -1,4 +1,4 @@
-import { GentFont } from './font.js'
+import { GentFont } from '../font.js'
 import * as LetterItem from './letteritem.js'
 
 

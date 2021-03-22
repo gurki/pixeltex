@@ -42,7 +42,7 @@ export const GentFont = {
         'Y': { bits: [1,0,1,1,0,1,0,1,1,1,1,0], unicode: "U+0059", name: "Latin Capital Letter Y", symbol: 'Y' },
         'Z': { bits: [1,1,1,0,0,1,0,1,0,1,1,1], unicode: "U+005A", name: "Latin Capital Letter Z", symbol: 'Z' },
 
-        'a': { bits: [0,0,0,1,1,1,1,0,1,1,1,1], unicode: "U+0061", name: "Latin Small Letter A", symbol: 'a' },
+        'a': { bits: [0,0,0,0,1,1,1,0,1,1,1,1], unicode: "U+0061", name: "Latin Small Letter A", symbol: 'a' },
         'b': { bits: [1,0,0,1,1,1,1,0,1,1,1,1], unicode: "U+0062", name: "Latin Small Letter B", symbol: 'b' },
         'c': { bits: [0,0,0,1,1,1,1,0,0,1,1,1], unicode: "U+0063", name: "Latin Small Letter C", symbol: 'c' },
         'd': { bits: [0,0,1,1,1,1,1,0,1,1,1,1], unicode: "U+0064", name: "Latin Small Letter D", symbol: 'd' },

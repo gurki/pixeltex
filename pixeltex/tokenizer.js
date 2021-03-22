@@ -1,4 +1,4 @@
-import { GentFont, Sets } from "./font.js"
+import { GentFont } from "../font.js"
 
 
 export const Types = {

@@ -1,20 +1,7 @@
 import * as Tokenizer from './tokenizer.js'
 
 
-let id = 0;
-let currNode = undefined;
-
-
-function createNode( type, parent=undefined ) {
-    return {
-        type: type,
-        parent: parent,
-        children: [],
-    };
-}
-
-
-const NodeTypes = {
+export const NodeTypes = {
     SYMBOL: "Symbol",
     WORD: "Word",
     ARGUMENT: "Argument",
@@ -26,7 +13,7 @@ const NodeTypes = {
     TERMINAL: "Terminal"
 }
 
-const SymbolTypes = [
+export const SymbolTypes = [
     Tokenizer.Types.LETTER,
     Tokenizer.Types.GREEK_LETTER,
     Tokenizer.Types.NUMERAL,
@@ -37,7 +24,7 @@ const SymbolTypes = [
     Tokenizer.Types.SPACE
 ];
 
-const CommandTypes = [
+export const CommandTypes = [
     Tokenizer.Types.FUNCTION,
     Tokenizer.Types.SUBSCRIPT,
     Tokenizer.Types.SUPERSCRIPT,
@@ -48,6 +35,18 @@ const CommandTypes = [
 Object.freeze( NodeTypes );
 Object.freeze( SymbolTypes );
 Object.freeze( CommandTypes );
+
+
+let id = 0;
+let currNode = undefined;
+
+function createNode( type, parent=undefined ) {
+    return {
+        type: type,
+        parent: parent,
+        children: [],
+    };
+}
 
 
 function accept( tokens, type, subtype=undefined, nodeType=undefined ) {
