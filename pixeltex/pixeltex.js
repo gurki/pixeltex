@@ -23,8 +23,10 @@ var app = new Vue({
             const canvasWidth = this.ctx.canvas.clientWidth;
             const canvasHeight = this.ctx.canvas.clientHeight;
 
-            this.ctx.fillStyle = "#454b61";
+            this.ctx.fillStyle = "#2c2f3a";
+            this.ctx.strokeStyle = "#191d27";
             this.ctx.fillRect( 0, 0, canvasWidth, canvasHeight );
+            this.ctx.strokeRect( 0, 0, canvasWidth, canvasHeight );
 
             for ( const line of lines ) {
 
@@ -44,12 +46,19 @@ var app = new Vue({
         let parent = document.getElementById( "tex-output" );
         let canvas = document.getElementById( "tex-canvas" );
 
+        // canvas.style.width = '100%';
+        // canvas.style.height = '100%';
+        canvas.width = parent.offsetWidth;
+        canvas.height = parent.offsetHeight;
+
         this.ctx = canvas.getContext( '2d' );
-        this.ctx.canvas.width = parent.clientWidth;
-        this.ctx.canvas.height = parent.clientHeight;
+        // this.ctx.canvas.width = canvas.width;
+        // this.ctx.canvas.height = canvas.height;
         this.ctx.imageSmoothingEnabled = false
-        this.ctx.fillStyle = "#454b61";
-        this.ctx.fillRect( 0, 0, canvas.clientWidth, canvas.clientHeight );
+        this.ctx.fillStyle = "#2c2f3a";
+        this.ctx.strokeStyle = "#191d27";
+        this.ctx.fillRect( 0, 0, canvas.width, canvas.height );
+        this.ctx.strokeRect( 0, 0, canvas.width, canvas.height );
 
         for ( const category in GentFont ) {
             const cats = GentFont[ category ];

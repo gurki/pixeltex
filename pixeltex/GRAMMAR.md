@@ -6,4 +6,4 @@ argument    -> START [expression] END
 unary       -> command ( symbol | argument )
 fraction    -> FRACTION argument argument
 terminal    -> word | argument | group | unary | fraction
-expression  -> terminal [expression]
+expression  -> [terminal] [expression]

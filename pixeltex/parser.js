@@ -225,6 +225,7 @@ function terminal( tokens ) {
 
 
 function expression( tokens ) {
+    if ( tokens.length === 0 ) return true;
     if ( ! terminal( tokens ) ) return false;
     // console.log( "expression", id );
     while ( terminal( tokens ) ) {}
@@ -234,6 +235,7 @@ function expression( tokens ) {
 
 export function parse( tokens ) {
 
+    if ( ! tokens ) return undefined;
     // console.log( "buildAST", tokens );
     id = 0;
     currNode = createNode( NodeTypes.EXPRESSION );

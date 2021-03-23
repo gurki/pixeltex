@@ -68,7 +68,7 @@ export function render( node, context ) {
     const x0 = Math.ceil( cx / size - 0.5 * node.rect.width );
     const y0 = Math.ceil( cy / size - 0.5 * node.rect.height );
 
-    Rasterizer.translateAll( node, x0, y0 );
+    // Rasterizer.translateAll( node, x0, y0 );
 
     renderAt( node, context, size );
 

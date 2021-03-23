@@ -29,7 +29,7 @@ function rasterizeChildren( node ) {
         const childPixmap = rasterize( child );
         if ( ! childPixmap ) continue;
 
-        translateAll( childPixmap, x, 0 );
+        translateAll( childPixmap, x - childPixmap.rect.x, 0 );
         x += childPixmap.rect.width + spacing;
 
         pixmap.children.push( childPixmap );
@@ -89,6 +89,7 @@ function rasterizeSymbol( node ) {
     const ox = pixmap.rect.x;
     const oy = pixmap.rect.y;
     pixmap.coords = pixmap.coords.map( c => { return { x: c.x - ox, y: c.y - oy }; } );
+
     return pixmap;
 
 }
