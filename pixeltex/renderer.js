@@ -24,6 +24,7 @@ function renderAt( node, context, size ) {
     else if ( node.tokenType === Tokenizer.Types.LETTER ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.GREEK_LETTER ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.MATH ) context.fillStyle = colors.cyan;
+    else if ( node.token && ( node.token.data in Tokenizer.BracketLookup ) ) context.fillStyle = colors.green;
     else if ( node.tokenType === Tokenizer.Types.PUNCTUATION ) context.fillStyle = colors.cyan;
     else if ( node.tokenType === Tokenizer.Types.SMILEY ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.EMOJI ) context.fillStyle = colors.yellow;

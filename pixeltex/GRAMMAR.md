@@ -1,9 +1,10 @@
 symbol      -> LETTER | GREEK_LETTER | NUMERAL | PUNCTUATION | SMILEY | EMOJI | MATH | SPACE
 word        -> symbol [word]
 group       -> OPEN* [expression] CLOSE*
-command     -> FUNCTION | SUBSCRIPT | SUPERSCRIPT | OVER | UNDER
 argument    -> START [expression] END
-unary       -> command ( symbol | argument )
+operand     -> symbol | argument
+unary       -> ( FUNCTION | OVER | UNDER ) operand
+script      -> expression [SUBSCRIPT operand] [SUPERSCRIPT operand]
 fraction    -> FRACTION argument argument
-terminal    -> word | argument | group | unary | fraction
+terminal    -> word | argument | group | fraction | unary | script
 expression  -> [terminal] [expression]

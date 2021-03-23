@@ -24,6 +24,8 @@ function rasterizeChildren( node ) {
     if ( ! node ) return undefined;
     let pixmap = createPixmapNode( node.type );
     let x = 0;
+    let top = -1;
+    let bottom = -1;
 
     for ( const child of node.children ) {
 
@@ -35,6 +37,11 @@ function rasterizeChildren( node ) {
         translateAll( childPixmap, x - childPixmap.rect.x, 0 );
         x += childPixmap.rect.width + spacing;
 
+        top = childPixmap.rect.top;
+        bottom = childPixmap.rect.bottom;
+
+        console.log( node.type, child.type );
+
         pixmap.children.push( childPixmap );
         pixmap.rect.includeRect( childPixmap.rect );
 
@@ -44,6 +51,7 @@ function rasterizeChildren( node ) {
         return undefined;
     }
 
+    // layoutScripts( pixmap );
     return pixmap;
 
 }
@@ -96,6 +104,7 @@ function rasterizeSymbol( node ) {
     const ox = pixmap.rect.x;
     const oy = pixmap.rect.y;
     pixmap.coords = pixmap.coords.map( c => { return { x: c.x - ox, y: c.y - oy }; } );
+    pixmap.token = token;
 
     return pixmap;
 
@@ -115,6 +124,7 @@ function wrapRoundBrackets( pixmap ) {
 
     pixmap.rect.maxx += 6;
     pixmap.rect.maxy = Math.max( pixmap.rect.maxy, 3 );
+    pixmap.rect.miny = Math.min( pixmap.rect.miny, 0 );
 
     pixmap.coords.push( { x: 1, y: 0 } );
     pixmap.coords.push( { x: pixmap.rect.right - 1, y: 0 } );
@@ -171,19 +181,43 @@ function wrapSqrt( pixmap ) {
     }
 
     pixmap.coords.push( { x: 0, y: pixmap.rect.height - 2 } );
-    console.log( "sqrt:", pixmap.rect );
-
     return pixmap;
 
+}
+
+
+function wrapOver( pixmap ) {
+    pixmap.rect.miny -= 2;
+    for ( let x = 0; x < pixmap.rect.width; x++ ) {
+        pixmap.coords.push( { x: x, y: 0 } );
+    }
+    return pixmap;
+}
+
+
+function wrapUnder( pixmap ) {
+    pixmap.rect.maxy += 2;
+    for ( let x = 0; x < pixmap.rect.width; x++ ) {
+        pixmap.coords.push( { x: x, y: pixmap.rect.height - 1 } );
+    }
+    return pixmap;
 }
 
 
 function rasterizeUnary( node ) {
 
     const pixmap = rasterizeChildren( node );
-    const fn = node.children[0].token.data;
+    const token = node.children[0].token
+    const fn = token.data;
+
 
     if ( fn === "sqrt" ) return wrapSqrt( pixmap );
+    if ( token.type === Tokenizer.Types.OVER ) return wrapOver( pixmap );
+    if ( token.type === Tokenizer.Types.UNDER ) return wrapUnder( pixmap );
+
+    console.log( node );
+    if ( token.type === Tokenizer.Types.SUBSCRIPT ) return pixmap;
+    if ( token.type === Tokenizer.Types.SUPERSCRIPT ) return pixmap;
 
     console.error( "function type", fn, "not implemented yet" );
     return pixmap;
