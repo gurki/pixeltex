@@ -18,6 +18,44 @@ function createPixmapNode( nodeType ) {
 }
 
 
+function rasterizeChildren( node ) {
+
+    if ( ! node ) return undefined;
+    let pixmap = createPixmapNode( node.type );
+    let x = 0;
+
+    for ( const child of node.children ) {
+
+        const childPixmap = rasterize( child );
+        if ( ! childPixmap ) continue;
+
+        translateAll( childPixmap, x, 0 );
+        x += childPixmap.rect.width + spacing;
+
+        pixmap.children.push( childPixmap );
+        pixmap.rect.includeRect( childPixmap.rect );
+
+    }
+
+    return pixmap;
+
+}
+
+
+export function translateAll( node, dx, dy ) {
+    if ( ! node ) return;
+    node.rect.translate( dx, dy );
+    for ( const child of node.children ) {
+        translateAll( child, dx, dy );
+    }
+}
+
+
+function removeTranslation( node ) {
+    translateAll( node, -node.rect.x, -node.rect.y );
+}
+
+
 function rasterizeSymbol( node ) {
 
     const token = node.token;
@@ -57,39 +95,7 @@ function rasterizeSymbol( node ) {
 
 
 function rasterizeWord( node ) {
-
-    let pixmap = createPixmapNode( node.type );
-    let x = 0;
-
-    for ( const symbol of node.children ) {
-
-        const symbolPixmap = rasterizeSymbol( symbol );
-        symbolPixmap.rect.translateX( x );
-        x += symbolPixmap.rect.width + spacing;
-
-        pixmap.children.push( symbolPixmap );
-        pixmap.rect.includeRect( symbolPixmap.rect );
-
-    }
-
-    return pixmap;
-
-}
-
-
-function rasterizeChildren( node ) {
-
-    let pixmap = createPixmapNode( node.type );
-
-    for ( const child of node.children ) {
-        const childPixmap = rasterize( child );
-        if ( ! childPixmap ) continue;
-        pixmap.children.push( childPixmap );
-        pixmap.rect.includeRect( childPixmap.rect );
-    }
-
-    return pixmap;
-
+    return rasterizeChildren( node );
 }
 
 
@@ -103,30 +109,32 @@ function rasterizeFraction( node ) {
     const nom = rasterizeArgument( node.children[0] );
     const den = rasterizeArgument( node.children[1] );
 
-    console.log( "TYPE:", node.type );
-    console.log( den.rect.y );
-    nom.rect.translateY( -nom.rect.y );
-    den.rect.translateY( nom.rect.bottom - den.rect.y + 4 );
+    if ( ! nom || ! den ) return;
 
-    console.log( "nom:", nom );
-    console.log( "den:", den );
-    console.log( nom.rect.y, nom.rect.height, nom.rect.bottom, den.rect.y );
+    removeTranslation( nom );
+    removeTranslation( den );
+    translateAll( den, 0, nom.rect.height + 3 );
 
     let pixmap = createPixmapNode( node.type );
-    pixmap.rect.maxx = Math.max( nom.rect.width, den.rect.width );
-    pixmap.rect.maxy = Math.max( nom.rect.height, den.rect.height );
+    pixmap.rect.maxx = 1 + Math.max( nom.rect.width, den.rect.width );
+    pixmap.rect.maxy = nom.rect.height + 2 + den.rect.height;
+    pixmap.rect.count = 8;
 
-    nom.rect.translateX( 1 + Math.floor( 0.5 * ( pixmap.rect.width - nom.rect.width )));
-    den.rect.translateX( 1 + Math.floor( 0.5 * ( pixmap.rect.width - den.rect.width )));
+    translateAll( nom, Math.ceil( 0.5 * ( pixmap.rect.width - nom.rect.width )), 0 );
+    translateAll( den, Math.ceil( 0.5 * ( pixmap.rect.width - den.rect.width )), 0 );
     pixmap.children.push( nom );
     pixmap.children.push( den );
 
-    const ly = nom.rect.bottom + 2;
-    pixmap.rect.maxx += 1;
+    const ly = nom.rect.height + 1;
+
+    // pixmap.coords.push( { x: pixmap.rect.x, y: pixmap.rect.y } );
 
     for ( let lx = 0; lx < pixmap.rect.width; lx++ ) {
         pixmap.coords.push( { x: lx, y: ly } );
     }
+
+    // pixmap.coords.push( { x: pixmap.rect.right, y: pixmap.rect.bottom } );
+    translateAll( pixmap, 0, 2 - ly );
 
     return pixmap;
 
@@ -134,7 +142,9 @@ function rasterizeFraction( node ) {
 
 
 function rasterizeExpression( node ) {
-    return rasterizeChildren( node );
+    const exp = rasterizeChildren( node );
+    removeTranslation( exp );
+    return exp;
 }
 
 

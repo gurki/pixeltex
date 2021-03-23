@@ -33,7 +33,6 @@ var app = new Vue({
                 const fb = Rasterizer.rasterize( ast );
                 console.log( fb );
 
-                this.ctx.fillStyle = "#fcfefa";
                 Renderer.render( fb, this.ctx );
 
             }
