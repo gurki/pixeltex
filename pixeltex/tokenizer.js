@@ -17,6 +17,7 @@ export const Types = {
     SUPERSCRIPT: "Superscript",
     OVER: "Over",
     UNDER: "Under",
+    // SQRT: "Squareroot",
     START: "Start",
     END: "End",
     FUNCTION: "Function"

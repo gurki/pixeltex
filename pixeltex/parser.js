@@ -6,8 +6,11 @@ export const NodeTypes = {
     WORD: "Word",
     ARGUMENT: "Argument",
     GROUP: "Group",
-    COMMAND: "Command",
+    OPERAND: "Operand",
     UNARY: "Unary",
+    SUB: "Sub",
+    SUP: "Sup",
+    SCRIPT: "Script",
     FRACTION: "Fraction",
     EXPRESSION: "Expression",
     TERMINAL: "Terminal"
@@ -26,8 +29,6 @@ export const SymbolTypes = [
 
 export const CommandTypes = [
     Tokenizer.Types.FUNCTION,
-    Tokenizer.Types.SUBSCRIPT,
-    Tokenizer.Types.SUPERSCRIPT,
     Tokenizer.Types.OVER,
     Tokenizer.Types.UNDER,
 ];
@@ -163,32 +164,125 @@ function group( tokens ) {
 }
 
 
-function command( tokens ) {
-    const res = CommandTypes.some( type => accept( tokens, type, undefined, NodeTypes.COMMAND ) );
-    // if ( res ) console.log( "command", id );
+function operand( tokens ) {
+    if ( id >= tokens.length ) return false;
+    let res = false;
+    if ( symbol( tokens ) ) res = true;
+    else if ( argument( tokens ) ) res = true;
+    // if ( res ) console.log( "operand", id );
     return res;
 }
 
 
 function unary( tokens ) {
 
-    const unaryNode = createNode( NodeTypes.UNARY, currNode );
-    currNode = unaryNode;
+    if ( id >= tokens.length ) return false;
 
-    if ( ! command( tokens ) ) {
-        currNode = currNode.parent;
+    const data = tokens[id].data;
+    const command = CommandTypes.find( type => accept( tokens, type, undefined ) );
+
+    if ( ! command ) {
         return false;
     }
 
+    const unaryNode = createNode( NodeTypes.UNARY, currNode );
+    unaryNode.subtype = ( command === Tokenizer.Types.FUNCTION ) ? data : command;
+    currNode = unaryNode;
+
     let res = false;
-    if ( argument( tokens ) ) { res = true; }
-    else if ( symbol( tokens ) ) { res = true };
+    if ( operand( tokens ) ) res = true;
 
     currNode = currNode.parent;
     currNode.children.push( unaryNode );
 
     // if ( res ) console.log( "unary", id );
+    return true;
+
+}
+
+
+function subscript( tokens ) {
+
+    if ( ! accept( tokens, Tokenizer.Types.SUBSCRIPT ) ) {
+        return false;
+    }
+
+    const subNode = createNode( NodeTypes.SUB, currNode );
+    currNode = subNode;
+
+    if ( ! operand( tokens ) ) {
+        currNode = currNode.parent;
+        return false;
+    }
+
+    currNode = currNode.parent;
+    currNode.children.push( subNode );
+    return true;
+
+}
+
+
+function superscript( tokens ) {
+
+    if ( ! accept( tokens, Tokenizer.Types.SUPERSCRIPT ) ) {
+        return false;
+    }
+
+    const supNode = createNode( NodeTypes.SUP, currNode );
+    currNode = supNode;
+
+    if ( ! operand( tokens ) ) {
+        currNode = currNode.parent;
+        return false;
+    }
+
+    currNode = currNode.parent;
+    currNode.children.push( supNode );
+    return true;
+
+}
+
+
+function nonscript( tokens ) {
+
+    let res = false;
+    if ( word( tokens ) ) res = true;
+    else if ( argument( tokens ) ) res = true;
+    else if ( group( tokens ) ) res = true;
+    else if ( fraction( tokens ) ) res = true;
+    else if ( unary( tokens ) ) res = true;
     return res;
+
+}
+
+
+function script( tokens ) {
+
+    const currId = id;
+    const scriptNode = createNode( NodeTypes.SCRIPT, currNode );
+    currNode = scriptNode;
+
+    if ( ! nonscript( tokens ) ) {
+        id = currId;
+        currNode = currNode.parent;
+        return false;
+    }
+
+    if ( subscript( tokens ) ) {
+        superscript( tokens );
+    }
+    else if ( superscript( tokens ) ) {
+        subscript( tokens );
+    }
+    else {
+        id = currId;
+        currNode = currNode.parent;
+        return false;
+    }
+
+    currNode = currNode.parent;
+    currNode.children.push( scriptNode );
+    return true;
 
 }
 
@@ -214,11 +308,12 @@ function fraction( tokens ) {
 function terminal( tokens ) {
     if ( id >= tokens.length ) return false;
     let res = false;
-    if ( word( tokens ) ) res = true;
+    if ( script( tokens ) ) res = true;
+    else if ( word( tokens ) ) res = true;
     else if ( argument( tokens ) ) res = true;
     else if ( group( tokens ) ) res = true;
-    else if ( unary( tokens ) ) res = true;
     else if ( fraction( tokens ) ) res = true;
+    else if ( unary( tokens ) ) res = true;
     // if ( res ) console.log( "terminal", id );
     return res;
 }

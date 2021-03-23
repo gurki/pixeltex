@@ -39,9 +39,11 @@ var app = new Vue({
             for ( const line of lines ) {
 
                 const tokens = Tokenizer.tokenize( line, this.codes );
+                console.log( ...tokens );
                 const ast = Parser.parse( tokens );
+                console.log( ast );
                 const fb = Rasterizer.rasterize( ast );
-                console.log( fb );
+                // console.log( fb );
 
                 Renderer.render( fb, this.ctx );
 

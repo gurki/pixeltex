@@ -207,19 +207,15 @@ function wrapUnder( pixmap ) {
 function rasterizeUnary( node ) {
 
     const pixmap = rasterizeChildren( node );
-    const token = node.children[0].token
-    const fn = token.data;
 
+    if ( node.subtype === "sqrt" ) return wrapSqrt( pixmap );
+    if ( node.subtype === Tokenizer.Types.OVER ) return wrapOver( pixmap );
+    if ( node.subtype === Tokenizer.Types.UNDER ) return wrapUnder( pixmap );
 
-    if ( fn === "sqrt" ) return wrapSqrt( pixmap );
-    if ( token.type === Tokenizer.Types.OVER ) return wrapOver( pixmap );
-    if ( token.type === Tokenizer.Types.UNDER ) return wrapUnder( pixmap );
+    // if ( token.type === Tokenizer.Types.SUBSCRIPT ) return pixmap;
+    // if ( token.type === Tokenizer.Types.SUPERSCRIPT ) return pixmap;
 
-    console.log( node );
-    if ( token.type === Tokenizer.Types.SUBSCRIPT ) return pixmap;
-    if ( token.type === Tokenizer.Types.SUPERSCRIPT ) return pixmap;
-
-    console.error( "function type", fn, "not implemented yet" );
+    console.error( "function type", node.subtype, "not implemented yet" );
     return pixmap;
 
 }

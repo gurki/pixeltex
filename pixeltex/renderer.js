@@ -58,10 +58,10 @@ export function render( node, context ) {
     const cy = Math.floor( 0.5 * h );
 
     if ( ! node ) {
-        context.fillStyle = colors.red;
-        context.textAlign = "center";
-        context.font = "32px sans-serif";
-        context.fillText( "invalid expression", cx, cy );
+    //     context.fillStyle = colors.red;
+    //     context.textAlign = "center";
+    //     context.font = "32px sans-serif";
+    //     context.fillText( "invalid expression", cx, cy );
         return;
     }
 

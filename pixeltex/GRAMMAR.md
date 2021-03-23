@@ -4,7 +4,10 @@ group       -> OPEN* [expression] CLOSE*
 argument    -> START [expression] END
 operand     -> symbol | argument
 unary       -> ( FUNCTION | OVER | UNDER ) operand
-script      -> expression [SUBSCRIPT operand] [SUPERSCRIPT operand]
+sub         -> SUBSCRIPT operand
+sup         -> SUPERSCRIPT operand
+nonscript   -> word | argument | group | fraction | unary
+script      -> nonscript ( ( sub [sup] ) | ( sup [sub] ) )
 fraction    -> FRACTION argument argument
-terminal    -> word | argument | group | fraction | unary | script
-expression  -> [terminal] [expression]
+terminal    -> script | word | argument | group | fraction | unary
+expression  -> terminal [expression]
