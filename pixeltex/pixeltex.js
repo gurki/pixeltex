@@ -23,6 +23,14 @@ var app = new Vue({
             const canvasWidth = this.ctx.canvas.clientWidth;
             const canvasHeight = this.ctx.canvas.clientHeight;
 
+            //  ab
+            //  \frac{x}{y}
+            //  a\frac{x}{y}b
+            //  a\frac{\frac{uv}{w}}{xyz}b
+            //  \left(a\frac{\frac{uv}{w}}{xyz}b\right)
+            //  \left(a\frac{\frac{uv}{w}}{\sqrt{xyz}}b\right)
+            //  \left(1\frac{\left(\frac{2x}{y}\right)}{\sqrt{3}}z\right)
+            //  \gamma:=\left(1\frac{\left(\frac{2x}{y}\right)}{\sqrt{3}}z\right)
             this.ctx.fillStyle = "#2c2f3a";
             this.ctx.strokeStyle = "#191d27";
             this.ctx.fillRect( 0, 0, canvasWidth, canvasHeight );

@@ -71,7 +71,7 @@ export const GentFont = {
     },
     "Numerals": {
         '0': { bits: [1,1,1,1,0,1,1,0,1,1,1,1], unicode: "U+0030", name: "Digit Zero", symbol: '0' },
-        '1': { bits: [0,0,1,0,0,1,0,0,1,0,0,1], unicode: "U+0031", name: "Digit One", symbol: '1' },
+        '1': { bits: [0,1,0,1,1,0,0,1,0,1,1,1], unicode: "U+0031", name: "Digit One", symbol: '1' },
         '2': { bits: [1,1,0,0,0,1,1,1,0,1,1,1], unicode: "U+0032", name: "Digit Two", symbol: '2' },
         '3': { bits: [1,1,1,0,0,1,0,1,1,1,1,1], unicode: "U+0033", name: "Digit Three", symbol: '3' },
         '4': { bits: [1,0,0,1,0,1,1,1,1,0,0,1], unicode: "U+0034", name: "Digit Four", symbol: '4' },

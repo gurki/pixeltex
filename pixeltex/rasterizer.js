@@ -5,6 +5,7 @@ import BoundingRect from './boundingrect.js'
 
 
 const spacing = 1;
+const ignoreSpaces = true;
 
 
 function createPixmapNode( nodeType ) {
@@ -26,6 +27,8 @@ function rasterizeChildren( node ) {
 
     for ( const child of node.children ) {
 
+        if ( child.token && child.token.type === Tokenizer.Types.SPACE ) continue;
+
         const childPixmap = rasterize( child );
         if ( ! childPixmap ) continue;
 
@@ -35,6 +38,10 @@ function rasterizeChildren( node ) {
         pixmap.children.push( childPixmap );
         pixmap.rect.includeRect( childPixmap.rect );
 
+    }
+
+    if ( ignoreSpaces && pixmap.rect.empty ) {
+        return undefined;
     }
 
     return pixmap;
@@ -52,6 +59,7 @@ export function translateAll( node, dx, dy ) {
 
 
 function removeTranslation( node ) {
+    if ( ! node ) return;
     translateAll( node, -node.rect.x, -node.rect.y );
 }
 
@@ -62,7 +70,6 @@ function rasterizeSymbol( node ) {
     let pixmap = createPixmapNode( node.type );
 
     if ( token.type == Tokenizer.Types.SPACE ) {
-        pixmap.rect.maxx = 3;
         return pixmap;
     }
 
@@ -100,8 +107,87 @@ function rasterizeWord( node ) {
 }
 
 
+function wrapRoundBrackets( pixmap ) {
+
+    for ( const child of pixmap.children ) {
+        translateAll( child, 3, 0 );
+    }
+
+    pixmap.rect.maxx += 6;
+    pixmap.rect.maxy = Math.max( pixmap.rect.maxy, 3 );
+
+    pixmap.coords.push( { x: 1, y: 0 } );
+    pixmap.coords.push( { x: pixmap.rect.right - 1, y: 0 } );
+
+    for ( let y = 1; y < pixmap.rect.height - 1; y++ ) {
+        pixmap.coords.push( { x: 0, y: y } );
+        pixmap.coords.push( { x: pixmap.rect.right, y: y } );
+    }
+
+    pixmap.coords.push( { x: 1, y: pixmap.rect.height - 1 } );
+    pixmap.coords.push( { x: pixmap.rect.right - 1, y: pixmap.rect.height - 1 } );
+
+    return pixmap;
+
+}
+
+
+function rasterizeGroup( node ) {
+
+    const pixmap = rasterizeChildren( node );
+
+    if ( node.subtype === Tokenizer.SubTypes.ROUND ) {
+        return wrapRoundBrackets( pixmap );
+    }
+
+    console.error( "bracket type", node.subtype, "not implemented yet" );
+    return pixmap;
+
+}
+
+
+function rasterizeCommand( node ) {
+    return undefined;
+}
+
+
 function rasterizeArgument( node ) {
     return rasterizeChildren( node );
+}
+
+
+function wrapSqrt( pixmap ) {
+
+    pixmap.rect.minx -= 3;
+    pixmap.rect.miny -= 2;
+    pixmap.rect.maxx += 1;
+
+    for ( let x = 1; x < pixmap.rect.width; x++ ) {
+        pixmap.coords.push( { x: x, y: 0 } );
+    }
+
+    for ( let y = 1; y < pixmap.rect.height; y++ ) {
+        pixmap.coords.push( { x: 1, y: y } );
+    }
+
+    pixmap.coords.push( { x: 0, y: pixmap.rect.height - 2 } );
+    console.log( "sqrt:", pixmap.rect );
+
+    return pixmap;
+
+}
+
+
+function rasterizeUnary( node ) {
+
+    const pixmap = rasterizeChildren( node );
+    const fn = node.children[0].token.data;
+
+    if ( fn === "sqrt" ) return wrapSqrt( pixmap );
+
+    console.error( "function type", fn, "not implemented yet" );
+    return pixmap;
+
 }
 
 
@@ -139,6 +225,11 @@ function rasterizeFraction( node ) {
 
     return pixmap;
 
+}
+
+
+function rasterizeTerminal( node ) {
+    return rasterizeChildren( node );
 }
 
 

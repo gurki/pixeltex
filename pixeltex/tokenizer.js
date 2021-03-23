@@ -55,7 +55,8 @@ const Functions = [
     "\\cosh", "\\sinh", "\\tanh",
     "\\acos", "\\asin", "\\atan",
     "\\ln", "\\log", "\\ld", "\\exp",
-    "\\sqrt", "\\sum", "\\prod", "\\int"
+    "\\sqrt", "\\sum", "\\prod", "\\int",
+    "\\lim"
 ];
 
 export const BracketLookup = {

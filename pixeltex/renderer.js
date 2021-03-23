@@ -20,15 +20,16 @@ const colors = {
 
 function renderAt( node, context, size ) {
 
-    // if ( node.tokenType === Tokenizer.Types.NUMERAL ) context.fillStyle = colors.white;
-    // else if ( node.tokenType === Tokenizer.Types.LETTER ) context.fillStyle = colors.yellow;
-    // else if ( node.tokenType === Tokenizer.Types.GREEK_LETTER ) context.fillStyle = colors.yellow;
-    if ( node.tokenType === Tokenizer.Types.MATH ) context.fillStyle = colors.cyan;
-    else if ( node.tokenType === Tokenizer.Types.PUNCTUATION ) context.fillStyle = colors.green;
+    if ( node.tokenType === Tokenizer.Types.NUMERAL ) context.fillStyle = colors.white;
+    else if ( node.tokenType === Tokenizer.Types.LETTER ) context.fillStyle = colors.yellow;
+    else if ( node.tokenType === Tokenizer.Types.GREEK_LETTER ) context.fillStyle = colors.yellow;
+    else if ( node.tokenType === Tokenizer.Types.MATH ) context.fillStyle = colors.cyan;
+    else if ( node.tokenType === Tokenizer.Types.PUNCTUATION ) context.fillStyle = colors.cyan;
     else if ( node.tokenType === Tokenizer.Types.SMILEY ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.EMOJI ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.FUNCTION ) context.fillStyle = colors.gray;
     else if ( node.nodeType === Parser.NodeTypes.FRACTION ) context.fillStyle = colors.green;
+    else if ( node.nodeType === Parser.NodeTypes.GROUP ) context.fillStyle = colors.green;
     else if ( node.nodeType === Parser.NodeTypes.UNARY ) context.fillStyle = colors.gray;
     else context.fillStyle = colors.white;
 
@@ -68,7 +69,7 @@ export function render( node, context ) {
     const x0 = Math.ceil( cx / size - 0.5 * node.rect.width );
     const y0 = Math.ceil( cy / size - 0.5 * node.rect.height );
 
-    // Rasterizer.translateAll( node, x0, y0 );
+    Rasterizer.translateAll( node, x0, y0 );
 
     renderAt( node, context, size );
 
