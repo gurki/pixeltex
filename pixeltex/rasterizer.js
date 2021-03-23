@@ -24,8 +24,6 @@ function rasterizeChildren( node ) {
     if ( ! node ) return undefined;
     let pixmap = createPixmapNode( node.type );
     let x = 0;
-    let top = -1;
-    let bottom = -1;
 
     for ( const child of node.children ) {
 
@@ -37,11 +35,6 @@ function rasterizeChildren( node ) {
         translateAll( childPixmap, x - childPixmap.rect.x, 0 );
         x += childPixmap.rect.width + spacing;
 
-        top = childPixmap.rect.top;
-        bottom = childPixmap.rect.bottom;
-
-        console.log( node.type, child.type );
-
         pixmap.children.push( childPixmap );
         pixmap.rect.includeRect( childPixmap.rect );
 
@@ -51,7 +44,6 @@ function rasterizeChildren( node ) {
         return undefined;
     }
 
-    // layoutScripts( pixmap );
     return pixmap;
 
 }
@@ -111,11 +103,6 @@ function rasterizeSymbol( node ) {
 }
 
 
-function rasterizeWord( node ) {
-    return rasterizeChildren( node );
-}
-
-
 function wrapRoundBrackets( pixmap ) {
 
     for ( const child of pixmap.children ) {
@@ -153,11 +140,6 @@ function rasterizeGroup( node ) {
     console.error( "bracket type", node.subtype, "not implemented yet" );
     return pixmap;
 
-}
-
-
-function rasterizeCommand( node ) {
-    return undefined;
 }
 
 
@@ -212,10 +194,44 @@ function rasterizeUnary( node ) {
     if ( node.subtype === Tokenizer.Types.OVER ) return wrapOver( pixmap );
     if ( node.subtype === Tokenizer.Types.UNDER ) return wrapUnder( pixmap );
 
-    // if ( token.type === Tokenizer.Types.SUBSCRIPT ) return pixmap;
-    // if ( token.type === Tokenizer.Types.SUPERSCRIPT ) return pixmap;
-
     console.error( "function type", node.subtype, "not implemented yet" );
+    return pixmap;
+
+}
+
+
+function rasterizeScript( node ) {
+
+    const pixmap = createPixmapNode( Parser.NodeTypes.SCRIPT );
+    const operand = rasterize( node.children[0] );
+    const arg1 = rasterizeChildren( node.children[1] );
+    const arg2 = rasterizeChildren( node.children[2] );
+
+    pixmap.rect.includeRect( operand.rect );
+    pixmap.children.push( operand );
+
+    let sup = undefined;
+    let sub = undefined;
+
+    sub = ( node.children[1].type === Parser.NodeTypes.SUB ) ? arg1 : arg2;
+    sup = ( sub === arg1 ) ? arg2 : arg1;
+
+    const w = operand.rect.width;
+    const top = operand.rect.top;
+    const bottom = operand.rect.bottom;
+
+    if ( sub ) {
+        translateAll( sub, w + 1, bottom );
+        pixmap.children.push( sub );
+        pixmap.rect.includeRect( sub.rect );
+    }
+
+    if ( sup ) {
+        translateAll( sup, w + 1, top - sup.rect.height + 1 );
+        pixmap.children.push( sup );
+        pixmap.rect.includeRect( sup.rect );
+    }
+
     return pixmap;
 
 }
@@ -244,22 +260,13 @@ function rasterizeFraction( node ) {
 
     const ly = nom.rect.height + 1;
 
-    // pixmap.coords.push( { x: pixmap.rect.x, y: pixmap.rect.y } );
-
     for ( let lx = 0; lx < pixmap.rect.width; lx++ ) {
         pixmap.coords.push( { x: lx, y: ly } );
     }
 
-    // pixmap.coords.push( { x: pixmap.rect.right, y: pixmap.rect.bottom } );
     translateAll( pixmap, 0, 2 - ly );
-
     return pixmap;
 
-}
-
-
-function rasterizeTerminal( node ) {
-    return rasterizeChildren( node );
 }
 
 
@@ -273,13 +280,11 @@ function rasterizeExpression( node ) {
 export function rasterize( node ) {
     if ( ! node ) return undefined;
     if ( node.type == Parser.NodeTypes.SYMBOL ) return rasterizeSymbol( node );
-    if ( node.type == Parser.NodeTypes.WORD ) return rasterizeWord( node );
     if ( node.type == Parser.NodeTypes.ARGUMENT ) return rasterizeArgument( node );
     if ( node.type == Parser.NodeTypes.GROUP ) return rasterizeGroup( node );
-    if ( node.type == Parser.NodeTypes.COMMAND ) return rasterizeCommand( node );
     if ( node.type == Parser.NodeTypes.UNARY ) return rasterizeUnary( node );
+    if ( node.type == Parser.NodeTypes.SCRIPT ) return rasterizeScript( node );
     if ( node.type == Parser.NodeTypes.FRACTION ) return rasterizeFraction( node );
     if ( node.type == Parser.NodeTypes.EXPRESSION ) return rasterizeExpression( node );
-    if ( node.type == Parser.NodeTypes.TERMINAL ) return rasterizeTerminal( node );
     return undefined;
 }

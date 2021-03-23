@@ -3,17 +3,14 @@ import * as Tokenizer from './tokenizer.js'
 
 export const NodeTypes = {
     SYMBOL: "Symbol",
-    WORD: "Word",
     ARGUMENT: "Argument",
     GROUP: "Group",
-    OPERAND: "Operand",
     UNARY: "Unary",
     SUB: "Sub",
     SUP: "Sup",
     SCRIPT: "Script",
     FRACTION: "Fraction",
     EXPRESSION: "Expression",
-    TERMINAL: "Terminal"
 }
 
 export const SymbolTypes = [
@@ -98,17 +95,17 @@ function symbol( tokens ) {
 
 function word( tokens ) {
 
-    const wordNode = createNode( NodeTypes.WORD, currNode );
-    currNode = wordNode;
+    // const wordNode = createNode( NodeTypes.WORD, currNode );
+    // currNode = wordNode;
 
     if ( ! symbol( tokens ) ) {
-        currNode = wordNode.parent;
+        // currNode = wordNode.parent;
         return false;
     }
 
     while ( symbol( tokens ) ) {}
-    currNode = currNode.parent;
-    currNode.children.push( wordNode );
+    // currNode = currNode.parent;
+    // currNode.children.push( wordNode );
 
     // console.log( "word", id );
     return true;
@@ -243,7 +240,7 @@ function superscript( tokens ) {
 }
 
 
-function nonscript( tokens ) {
+function base( tokens ) {
 
     let res = false;
     if ( word( tokens ) ) res = true;
@@ -262,7 +259,7 @@ function script( tokens ) {
     const scriptNode = createNode( NodeTypes.SCRIPT, currNode );
     currNode = scriptNode;
 
-    if ( ! nonscript( tokens ) ) {
+    if ( ! base( tokens ) ) {
         id = currId;
         currNode = currNode.parent;
         return false;
