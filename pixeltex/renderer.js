@@ -18,20 +18,22 @@ const colors = {
 };
 
 
-function renderAt( node, context, size ) {
+////////////////////////////////////////////////////////////////////////////////
+function renderAt( node, context, size, fill=undefined ) {
 
-    if ( node.tokenType === Tokenizer.Types.NUMERAL ) context.fillStyle = colors.white;
-    else if ( node.tokenType === Tokenizer.Types.LETTER ) context.fillStyle = colors.yellow;
-    else if ( node.tokenType === Tokenizer.Types.GREEK_LETTER ) context.fillStyle = colors.yellow;
+    if ( fill ) context.fillStyle = fill;
+    else if ( node.nodeType === Parser.NodeTypes.UNARY ) context.fillStyle = colors.gray;
+    else if ( node.tokenType === Tokenizer.Types.FUNCTION ) context.fillStyle = colors.gray;
+    else if ( node.tokenType === Tokenizer.Types.NUMERAL ) context.fillStyle = colors.yellow;
+    else if ( node.tokenType === Tokenizer.Types.LETTER ) context.fillStyle = colors.white;
+    else if ( node.tokenType === Tokenizer.Types.GREEK_LETTER ) context.fillStyle = colors.white;
     else if ( node.tokenType === Tokenizer.Types.MATH ) context.fillStyle = colors.cyan;
     else if ( node.token && ( node.token.data in Tokenizer.BracketLookup ) ) context.fillStyle = colors.green;
     else if ( node.tokenType === Tokenizer.Types.PUNCTUATION ) context.fillStyle = colors.cyan;
     else if ( node.tokenType === Tokenizer.Types.SMILEY ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.EMOJI ) context.fillStyle = colors.yellow;
-    else if ( node.tokenType === Tokenizer.Types.FUNCTION ) context.fillStyle = colors.gray;
     else if ( node.nodeType === Parser.NodeTypes.FRACTION ) context.fillStyle = colors.green;
     else if ( node.nodeType === Parser.NodeTypes.GROUP ) context.fillStyle = colors.green;
-    else if ( node.nodeType === Parser.NodeTypes.UNARY ) context.fillStyle = colors.gray;
     else context.fillStyle = colors.white;
 
     const offx = node.rect.x * size;
@@ -50,6 +52,7 @@ function renderAt( node, context, size ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 export function render( node, context ) {
 
     const w = context.canvas.width;

@@ -10,6 +10,9 @@ export const Types = {
     SMILEY: "Smileys",
     EMOJI: "Various Emojis",
     MATH: "Math Symbols",
+    LOGIC: "Logic",
+    GEOMETRY: "Arrows and Geometry",
+    CURRENCY: "Currency",
     FRACTION: "Fraction",
     OPEN: "Open",
     CLOSE: "Close",
@@ -17,7 +20,7 @@ export const Types = {
     SUPERSCRIPT: "Superscript",
     OVER: "Over",
     UNDER: "Under",
-    // SQRT: "Squareroot",
+    SQRT: "Square Root",
     START: "Start",
     END: "End",
     FUNCTION: "Function"
@@ -51,13 +54,13 @@ const Commands = {
     "\\underhat": Types.UNDER,
 }
 
-const Functions = [
+export const Functions = [
     "\\cos", "\\sin", "\\tan",
     "\\cosh", "\\sinh", "\\tanh",
-    "\\acos", "\\asin", "\\atan",
-    "\\ln", "\\log", "\\ld", "\\exp",
+    "\\arccos", "\\arcsin", "\\arctan",
+    "\\ln", "\\log", "\\exp",
+    "\\lim", "\\dx",
     "\\sqrt", "\\sum", "\\prod", "\\int",
-    "\\lim"
 ];
 
 export const BracketLookup = {
@@ -77,12 +80,32 @@ Object.freeze( Commands );
 Object.freeze( Functions );
 Object.freeze( BracketLookup );
 
+const codes = {};
 
+function computeCodes() {
+
+    for ( const category in MiniGent ) {
+        const cats = MiniGent[ category ];
+        for ( const key in cats ) {
+            const letter = cats[ key ];
+            if ( ! ( "code" in letter ) ) continue;
+            codes[ letter[ "code" ] ] = letter;
+        }
+    }
+
+}
+
+computeCodes();
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 export function isSymbol( type ) {
     return type in MiniGent;
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 export function isVariable( type ) {
     return [
         Types.LETTER,
@@ -93,17 +116,22 @@ export function isVariable( type ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function keyType( key ) {
     if ( key in MiniGent[ Types.SMILEY ] ) return Types.SMILEY;
     if ( key in MiniGent[ Types.GREEK_LETTER ] ) return Types.GREEK_LETTER;
     if ( key in MiniGent[ Types.EMOJI ] ) return Types.EMOJI;
     if ( key in MiniGent[ Types.MATH ] ) return Types.MATH;
+    if ( key in MiniGent[ Types.LOGIC ] ) return Types.LOGIC;
+    if ( key in MiniGent[ Types.GEOMETRY ] ) return Types.GEOMETRY;
+    if ( key in MiniGent[ Types.CURRENCY ] ) return Types.CURRENCY;
     if ( key in MiniGent[ Types.PUNCTUATION ] ) return Types.PUNCTUATION;
     return undefined;
 }
 
 
-export function tokenize( text, codes ) {
+////////////////////////////////////////////////////////////////////////////////
+export function tokenize( text ) {
 
     let tokens = [];
 
@@ -202,6 +230,9 @@ export function tokenize( text, codes ) {
         else if ( c in MiniGent[ Types.NUMERAL ] ) tokens.push( { type: Types.NUMERAL, data: c } );
         else if ( c in MiniGent[ Types.PUNCTUATION ] ) tokens.push( { type: Types.PUNCTUATION, data: c } );
         else if ( c in MiniGent[ Types.MATH ] ) tokens.push( { type: Types.MATH, data: c } );
+        else if ( c in MiniGent[ Types.LOGIC ] ) tokens.push( { type: Types.LOGIC, data: c } );
+        else if ( c in MiniGent[ Types.GEOMETRY ] ) tokens.push( { type: Types.GEOMETRY, data: c } );
+        else if ( c in MiniGent[ Types.CURRENCY ] ) tokens.push( { type: Types.CURRENCY, data: c } );
 
     }
 
@@ -210,6 +241,7 @@ export function tokenize( text, codes ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function isSubMatch( text, search, textStart = 0 ) {
 
     if ( textStart + search.length > text.length ) return false;
@@ -223,6 +255,7 @@ function isSubMatch( text, search, textStart = 0 ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function findCode( text, codes, textStart = 0 ) {
     return codes.find( code => isSubMatch( text, code, textStart ) );
 }

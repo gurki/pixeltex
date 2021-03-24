@@ -31,6 +31,8 @@ var app = new Vue({
             //  \left(a\frac{\frac{uv}{w}}{\sqrt{xyz}}b\right)
             //  \left(1\frac{\left(\frac{2x}{y}\right)}{\sqrt{3}}z\right)
             //  \gamma:=\left(1\frac{\left(\frac{2x}{y}\right)}{\sqrt{3}}z\right)
+            //  \sqrt{3\left(\frac{a}{b}\right)^2_i}=4\sum_{i=0}^{n}(u_i\cdotv_i)+\log{a}
+            //  \sqrt{3\left(\frac{a}{\log{b}}\right)^2_i}=4\sum_{i=0}^{n}(u_i\cdotv_i)+\int_1^3x\dx
             this.ctx.fillStyle = "#2c2f3a";
             this.ctx.strokeStyle = "#191d27";
             this.ctx.fillRect( 0, 0, canvasWidth, canvasHeight );
@@ -40,7 +42,7 @@ var app = new Vue({
 
                 const tokens = Tokenizer.tokenize( line, this.codes );
                 const ast = Parser.parse( tokens );
-                console.log( ast );
+                // console.log( ast );
                 const fb = Rasterizer.rasterize( ast );
                 // console.log( fb );
 
@@ -48,35 +50,30 @@ var app = new Vue({
 
             }
 
+        },
+        saveImage() {
+            const canvas = document.getElementById( "tex-canvas" );
+            let link = document.getElementById( 'link' );
+            link.setAttribute( 'download', 'PixelTexRender.png' );
+            link.setAttribute( 'href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream") );
+            link.click();
+        },
+        showExample( id ) {
+            if ( id == 1 ) this.input = "Hello there! :grinning:";
+            if ( id == 2 ) this.input = "GREEK LETTERS?!\n\n\\gamma\\xi\\Delta\n\nNICE :thumbsup:"
+            if ( id == 3 ) this.input = "Equation 1)\n\n\\left(a\\frac{\\frac{uv}{w}}{xyz}b\\right)"
+            if ( id == 4 ) this.input = "\\sqrt{3\\left(\\frac{a}{\\log{b}}\\right)^2_i}=4\\sum_{i=0}^{n}(u_i\\cdotv_i)+\\int_1^3x\\dx-\\left(\\lim_{n\\rightarrow\\infty}\\frac{1}{n^{-2}}\\right)"
+            this.inputChanged();
         }
     },
     mounted() {
 
-        let parent = document.getElementById( "tex-output" );
         let canvas = document.getElementById( "tex-canvas" );
 
-        // canvas.style.width = '100%';
-        // canvas.style.height = '100%';
-        canvas.width = parent.offsetWidth;
-        canvas.height = parent.offsetHeight;
-
         this.ctx = canvas.getContext( '2d' );
-        // this.ctx.canvas.width = canvas.width;
-        // this.ctx.canvas.height = canvas.height;
         this.ctx.imageSmoothingEnabled = false
         this.ctx.fillStyle = "#2c2f3a";
-        this.ctx.strokeStyle = "#191d27";
         this.ctx.fillRect( 0, 0, canvas.width, canvas.height );
-        this.ctx.strokeRect( 0, 0, canvas.width, canvas.height );
-
-        for ( const category in MiniGent ) {
-            const cats = MiniGent[ category ];
-            for ( const key in cats ) {
-                const letter = cats[ key ];
-                if ( ! ( "code" in letter ) ) continue;
-                this.codes[ letter[ "code" ] ] = letter;
-            }
-        }
 
     }
 

@@ -3,6 +3,7 @@ import * as Tokenizer from './tokenizer.js'
 
 export const NodeTypes = {
     SYMBOL: "Symbol",
+    WORD: "Word",
     ARGUMENT: "Argument",
     GROUP: "Group",
     UNARY: "Unary",
@@ -21,6 +22,9 @@ export const SymbolTypes = [
     Tokenizer.Types.SMILEY,
     Tokenizer.Types.EMOJI,
     Tokenizer.Types.MATH,
+    Tokenizer.Types.LOGIC,
+    Tokenizer.Types.GEOMETRY,
+    Tokenizer.Types.CURRENCY,
     Tokenizer.Types.SPACE
 ];
 
@@ -38,6 +42,8 @@ Object.freeze( CommandTypes );
 let id = 0;
 let currNode = undefined;
 
+
+////////////////////////////////////////////////////////////////////////////////
 function createNode( type, parent=undefined ) {
     return {
         type: type,
@@ -47,6 +53,7 @@ function createNode( type, parent=undefined ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function accept( tokens, type, subtype=undefined, nodeType=undefined ) {
 
     if ( id >= tokens.length ) return false;
@@ -72,6 +79,7 @@ function accept( tokens, type, subtype=undefined, nodeType=undefined ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function expect( tokens, type, subtype=undefined ) {
 
     const token = tokens[id];
@@ -86,6 +94,7 @@ function expect( tokens, type, subtype=undefined ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function symbol( tokens ) {
     const res = SymbolTypes.some( type => accept( tokens, type, undefined, NodeTypes.SYMBOL ) );
     // if ( res ) console.log( "symbol", id );
@@ -93,25 +102,27 @@ function symbol( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function word( tokens ) {
 
-    // const wordNode = createNode( NodeTypes.WORD, currNode );
-    // currNode = wordNode;
+    const wordNode = createNode( NodeTypes.WORD, currNode );
+    currNode = wordNode;
 
     if ( ! symbol( tokens ) ) {
-        // currNode = wordNode.parent;
+        currNode = wordNode.parent;
         return false;
     }
 
     while ( symbol( tokens ) ) {}
-    // currNode = currNode.parent;
-    // currNode.children.push( wordNode );
+    currNode = currNode.parent;
+    currNode.children.push( wordNode );
 
     // console.log( "word", id );
     return true;
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function argument( tokens ) {
 
     if ( ! accept( tokens, Tokenizer.Types.START ) ) return false;
@@ -135,6 +146,7 @@ function argument( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function group( tokens ) {
 
     if ( id >= tokens.length ) return false;
@@ -161,6 +173,7 @@ function group( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function operand( tokens ) {
     if ( id >= tokens.length ) return false;
     let res = false;
@@ -171,6 +184,7 @@ function operand( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function unary( tokens ) {
 
     if ( id >= tokens.length ) return false;
@@ -182,7 +196,7 @@ function unary( tokens ) {
         return false;
     }
 
-    const unaryNode = createNode( NodeTypes.UNARY, currNode );
+    let unaryNode = createNode( NodeTypes.UNARY, currNode );
     unaryNode.subtype = ( command === Tokenizer.Types.FUNCTION ) ? data : command;
     currNode = unaryNode;
 
@@ -198,6 +212,7 @@ function unary( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function subscript( tokens ) {
 
     if ( ! accept( tokens, Tokenizer.Types.SUBSCRIPT ) ) {
@@ -219,6 +234,7 @@ function subscript( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function superscript( tokens ) {
 
     if ( ! accept( tokens, Tokenizer.Types.SUPERSCRIPT ) ) {
@@ -240,6 +256,7 @@ function superscript( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function base( tokens ) {
 
     let res = false;
@@ -253,6 +270,7 @@ function base( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function script( tokens ) {
 
     const currId = id;
@@ -264,6 +282,7 @@ function script( tokens ) {
         currNode = currNode.parent;
         return false;
     }
+
 
     if ( subscript( tokens ) ) {
         superscript( tokens );
@@ -284,6 +303,7 @@ function script( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function fraction( tokens ) {
 
     if ( ! accept( tokens, Tokenizer.Types.FRACTION, undefined, NodeTypes.FRACTION ) ) {
@@ -302,6 +322,7 @@ function fraction( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function terminal( tokens ) {
     if ( id >= tokens.length ) return false;
     let res = false;
@@ -311,11 +332,11 @@ function terminal( tokens ) {
     else if ( group( tokens ) ) res = true;
     else if ( fraction( tokens ) ) res = true;
     else if ( unary( tokens ) ) res = true;
-    // if ( res ) console.log( "terminal", id );
     return res;
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 function expression( tokens ) {
     if ( ! terminal( tokens ) ) return false;
     // console.log( "expression", id );
@@ -324,6 +345,7 @@ function expression( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 export function parse( tokens ) {
 
     if ( ! tokens ) return undefined;
@@ -342,6 +364,7 @@ export function parse( tokens ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
 export function toString( node, indent=0 ) {
 
     if ( ! node ) return '';

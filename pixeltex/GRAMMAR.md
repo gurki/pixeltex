@@ -1,4 +1,4 @@
-symbol*     -> LETTER | GREEK_LETTER | NUMERAL | PUNCTUATION | SMILEY | EMOJI | MATH | SPACE
+symbol*     -> LETTER | GREEK_LETTER | NUMERAL | PUNCTUATION | SMILEY | EMOJI | MATH | LOGIC | GEOMETRY | CURRENCY | SPACE
 word        -> symbol [word]
 group*      -> OPEN* [expression] CLOSE*
 argument*   -> START [expression] END

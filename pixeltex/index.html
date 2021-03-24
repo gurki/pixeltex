@@ -3,6 +3,7 @@
     <head>
         <title>PixelTex</title>
         <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" type="text/css" href="../common.css"/>
         <link rel="stylesheet" type="text/css" href="pixeltex.css"/>
     </head>
@@ -20,9 +21,18 @@
                         autofocus
                     ></textarea>
                     <div id="tex-output">
-                        <canvas id="tex-canvas"></canvas>
+                        <canvas id="tex-canvas" width=800px height=400px></canvas>
+                        <button class="material-icons icon-button top-right" @click="saveImage">save</button>
                     </div>
                 </div>
+                <br>
+                <div class="button-row">
+                    <button class="text-button" @click="showExample(1)">Text</button>
+                    <button class="text-button" @click="showExample(2)">Greeks</button>
+                    <button class="text-button" @click="showExample(3)">Latex</button>
+                    <button class="text-button" @click="showExample(4)">Frickin' Latex</button>
+                </div>
+                <a id="link"></a>
             </div>
         </div>
         <script type=module src=pixeltex.js></script>

@@ -8,7 +8,12 @@ export function drawLetter( canvas, letter ) {
 
     ctx.fillStyle = "#FCFEFA";
 
-    const cols = ( letter.bits.length == 6 ) ? 2 : 3;
+    const cols = (
+        ( letter.bits.length < 12 ) ? 2 :   //  2x4, 2x5
+        ( letter.bits.length === 16 ) ? 4 : //  4x4 arrows, at, nparallel
+        ( letter.bits.length === 20 ) ? 5 : //  5x4 infinity
+        3                                   //  3x4, 3x5
+    );
     const rows = letter.bits.length / cols;
     const pw = w / 5;
     const ph = h / 5;
