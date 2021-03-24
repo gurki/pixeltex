@@ -1,4 +1,4 @@
-import { GentFont } from '../font.js'
+import { MiniGent } from '../minigent.js'
 import * as Parser from './parser.js'
 import * as Tokenizer from './tokenizer.js'
 import BoundingRect from './boundingrect.js'
@@ -74,10 +74,10 @@ function rasterizeSymbol( node ) {
     }
 
     //  invalid symbol
-    if ( ! ( token.type in GentFont ) ) return pixmap;
+    if ( ! ( token.type in MiniGent ) ) return pixmap;
 
     pixmap.tokenType = token.type;
-    const letter = GentFont[ token.type ][ token.data ];
+    const letter = MiniGent[ token.type ][ token.data ];
 
     if ( ! letter ) return pixmap;
 

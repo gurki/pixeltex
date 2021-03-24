@@ -1,11 +1,11 @@
-import { GentFont } from '../font.js'
+import { MiniGent } from '../minigent.js'
 import * as LetterItem from './letteritem.js'
 
 
 var app = new Vue({
 
     data: {
-        font: GentFont
+        font: MiniGent
     },
 
     watch: {},

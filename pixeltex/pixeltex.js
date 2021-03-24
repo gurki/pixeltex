@@ -1,4 +1,4 @@
-import { GentFont } from '../font.js'
+import { MiniGent } from '../minigent.js'
 import * as Tokenizer from './tokenizer.js'
 import * as Parser from './parser.js'
 import * as Rasterizer from './rasterizer.js'
@@ -8,7 +8,7 @@ import * as Renderer from './renderer.js'
 var app = new Vue({
 
     data: {
-        font: GentFont,
+        font: MiniGent,
         codes: {},
         input: ""
     },
@@ -69,8 +69,8 @@ var app = new Vue({
         this.ctx.fillRect( 0, 0, canvas.width, canvas.height );
         this.ctx.strokeRect( 0, 0, canvas.width, canvas.height );
 
-        for ( const category in GentFont ) {
-            const cats = GentFont[ category ];
+        for ( const category in MiniGent ) {
+            const cats = MiniGent[ category ];
             for ( const key in cats ) {
                 const letter = cats[ key ];
                 if ( ! ( "code" in letter ) ) continue;

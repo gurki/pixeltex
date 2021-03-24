@@ -1,4 +1,4 @@
-import { GentFont } from "../font.js"
+import { MiniGent } from "../minigent.js"
 
 
 export const Types = {
@@ -79,7 +79,7 @@ Object.freeze( BracketLookup );
 
 
 export function isSymbol( type ) {
-    return type in GentFont;
+    return type in MiniGent;
 }
 
 
@@ -94,11 +94,11 @@ export function isVariable( type ) {
 
 
 function keyType( key ) {
-    if ( key in GentFont[ Types.SMILEY ] ) return Types.SMILEY;
-    if ( key in GentFont[ Types.GREEK_LETTER ] ) return Types.GREEK_LETTER;
-    if ( key in GentFont[ Types.EMOJI ] ) return Types.EMOJI;
-    if ( key in GentFont[ Types.MATH ] ) return Types.MATH;
-    if ( key in GentFont[ Types.PUNCTUATION ] ) return Types.PUNCTUATION;
+    if ( key in MiniGent[ Types.SMILEY ] ) return Types.SMILEY;
+    if ( key in MiniGent[ Types.GREEK_LETTER ] ) return Types.GREEK_LETTER;
+    if ( key in MiniGent[ Types.EMOJI ] ) return Types.EMOJI;
+    if ( key in MiniGent[ Types.MATH ] ) return Types.MATH;
+    if ( key in MiniGent[ Types.PUNCTUATION ] ) return Types.PUNCTUATION;
     return undefined;
 }
 
@@ -198,10 +198,10 @@ export function tokenize( text, codes ) {
 
         }
 
-        if ( c in GentFont[ Types.LETTER ] ) tokens.push( { type: Types.LETTER, data: c } );
-        else if ( c in GentFont[ Types.NUMERAL ] ) tokens.push( { type: Types.NUMERAL, data: c } );
-        else if ( c in GentFont[ Types.PUNCTUATION ] ) tokens.push( { type: Types.PUNCTUATION, data: c } );
-        else if ( c in GentFont[ Types.MATH ] ) tokens.push( { type: Types.MATH, data: c } );
+        if ( c in MiniGent[ Types.LETTER ] ) tokens.push( { type: Types.LETTER, data: c } );
+        else if ( c in MiniGent[ Types.NUMERAL ] ) tokens.push( { type: Types.NUMERAL, data: c } );
+        else if ( c in MiniGent[ Types.PUNCTUATION ] ) tokens.push( { type: Types.PUNCTUATION, data: c } );
+        else if ( c in MiniGent[ Types.MATH ] ) tokens.push( { type: Types.MATH, data: c } );
 
     }
 

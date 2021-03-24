@@ -1,19 +1,4 @@
-export const Sets = {
-    LETTER: "Latin Alphabet",
-    GREEK_LETTER: "Greek Alphabet",
-    NUMERAL: "Numerals",
-    PUNCTUATION: "Punctuation Marks",
-    SMILEY: "Smileys",
-    EMOJI: "Various Emojis",
-    MATH: "Math Symbols",
-    INDEX_LETTERS: "Index Letters",
-    INDEX_NUMERALS: "Index Numerals",
-}
-
-Object.freeze( Sets );
-
-
-export const GentFont = {
+export const MiniGent = {
     "Latin Alphabet": {
         'A': { bits: [0,1,0,1,0,1,1,1,1,1,0,1], unicode: "U+0041", name: "Latin Capital Letter A", symbol: 'A' },
         'B': { bits: [1,1,0,1,1,0,1,0,1,1,1,1], unicode: "U+0042", name: "Latin Capital Letter B", symbol: 'B' },
@@ -186,7 +171,7 @@ export const GentFont = {
         'q': { bits: [1,1,1,1,1,1,0,0,1], unicode: "N/A", name: "Modifier Letter Small Q", symbol: 'N/A' },
         'r': { bits: [1,1,1,1,0,0,1,0,0], unicode: "N/A", name: "Modifier Letter Small R", symbol: 'ʳ' },
         's': { bits: [0,1,1,0,1,0,1,1,0], unicode: "N/A", name: "Modifier Letter Small S", symbol: 'ˢ' },
-        't': { bits: [0,1,0,1,1,1,0,1,1], unicode: "N/A", name: "Modifier Letter Small T", symbol: 'ᵗ' },
+        't': { bits: [1,1,1,0,1,0,0,1,0], unicode: "N/A", name: "Modifier Letter Small T", symbol: 'ᵗ' },
         'u': { bits: [1,0,1,1,0,1,1,1,1], unicode: "N/A", name: "Modifier Letter Small U", symbol: 'ᵘ' },
         'v': { bits: [1,0,1,1,0,1,0,1,0], unicode: "N/A", name: "Modifier Letter Small V", symbol: 'ᵛ' },
         'w': { bits: [1,0,1,1,1,1,1,1,1], unicode: "N/A", name: "Modifier Letter Small W", symbol: 'ʷ' },
