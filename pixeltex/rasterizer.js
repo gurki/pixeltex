@@ -1,4 +1,4 @@
-import { MiniGent } from '../minigent.js'
+import { MiniGent } from '../font/minigent.js'
 import * as Parser from './parser.js'
 import * as Tokenizer from './tokenizer.js'
 import BoundingRect from './boundingrect.js'

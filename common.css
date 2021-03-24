@@ -7,7 +7,7 @@ body {
     font-size: 14px;
     color: #fcfefa;
     background: #303441;
-    margin: 10%;
+    margin: 5%;
 }
 
 #app {
@@ -29,4 +29,11 @@ body {
     margin-top: -2em;
     margin-bottom: 2em;
     color: #787f97;
+}
+
+
+.license {
+    position: absolute;
+    right: 5%;
+    top: 5%;
 }

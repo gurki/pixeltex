@@ -1,4 +1,4 @@
-import { MiniGent } from "../minigent.js"
+import { MiniGent } from "../font/minigent.js"
 
 
 export const Types = {
