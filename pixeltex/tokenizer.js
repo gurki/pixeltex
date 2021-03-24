@@ -23,7 +23,8 @@ export const Types = {
     SQRT: "Square Root",
     START: "Start",
     END: "End",
-    FUNCTION: "Function"
+    FUNCTION: "Function",
+    BREAK: "Break",
 };
 
 export const SubTypes = {
@@ -139,7 +140,8 @@ export function tokenize( text ) {
 
         const c = text[ i ];
 
-        if ( c == ' ' ) { tokens.push( { type: Types.SPACE } ); continue; }
+        if ( c == '\n' ) { tokens.push( { type: Types.BREAK } ); continue; }
+        else if ( c == ' ' ) { tokens.push( { type: Types.SPACE } ); continue; }
         else if ( c == '{' ) { tokens.push( { type: Types.START } ); continue; }
         else if ( c == '}' ) { tokens.push( { type: Types.END } ); continue; }
         else if ( c == '^' ) { tokens.push( { type: Types.SUPERSCRIPT } ); continue; }

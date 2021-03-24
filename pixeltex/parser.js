@@ -12,6 +12,7 @@ export const NodeTypes = {
     SCRIPT: "Script",
     FRACTION: "Fraction",
     EXPRESSION: "Expression",
+    LINES: "Lines",
 }
 
 export const SymbolTypes = [
@@ -25,7 +26,7 @@ export const SymbolTypes = [
     Tokenizer.Types.LOGIC,
     Tokenizer.Types.GEOMETRY,
     Tokenizer.Types.CURRENCY,
-    Tokenizer.Types.SPACE
+    Tokenizer.Types.SPACE,
 ];
 
 export const CommandTypes = [
@@ -346,15 +347,45 @@ function expression( tokens ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+function lines( tokens ) {
+
+    const lineNode = createNode( NodeTypes.EXPRESSION, currNode );
+    currNode = lineNode;
+
+    if ( ! expression( tokens ) ) {
+
+        //  empty line
+        if ( accept( tokens, Tokenizer.Types.BREAK ) ) {
+            currNode = currNode.parent;
+            currNode.children.push( lineNode );
+            return true;
+        }
+
+        currNode = currNode.parent;
+        return false;
+    }
+
+    if ( ! accept( tokens, Tokenizer.Types.BREAK ) ) {}
+
+    currNode = currNode.parent;
+    currNode.children.push( lineNode );
+
+    while ( lines( tokens ) ) {}
+    return true;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 export function parse( tokens ) {
 
     if ( ! tokens ) return undefined;
     // console.log( "buildAST", tokens );
     id = 0;
-    currNode = createNode( NodeTypes.EXPRESSION );
+    currNode = createNode( NodeTypes.LINES );
     if ( tokens.length === 0 ) return currNode;
 
-    if ( ! expression( tokens ) ) {
+    if ( ! lines( tokens ) ) {
         console.error( "couldn't parse expression" );
         return undefined;
     }

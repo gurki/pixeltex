@@ -11,3 +11,4 @@ script*     -> nonscript ( ( sub [sup] ) | ( sup [sub] ) )
 fraction*   -> FRACTION argument argument
 terminal    -> script | word | argument | group | fraction | unary
 expression* -> terminal [expression]
+lines*      -> expression [BREAK] [lines] | BREAK [lines]

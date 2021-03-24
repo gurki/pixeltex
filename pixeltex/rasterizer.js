@@ -8,6 +8,9 @@ const spacing = 1;
 const ignoreWhitespace = false;
 const limits = true;
 
+const VerticalScripts = [ "lim", "sum", "prod" ];
+Object.freeze( VerticalScripts );
+
 
 ////////////////////////////////////////////////////////////////////////////////
 function createPixmapNode( nodeType ) {
@@ -18,6 +21,47 @@ function createPixmapNode( nodeType ) {
         nodeType: nodeType,
         tokenType: undefined,
     }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function hcenter( node ) {
+    if ( ! node ) return;
+    const dx = -Math.floor( 0.5 * node.rect.width ) - node.rect.x;
+    translateAll( node, dx, 0 );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function placeBelow( child, parent ) {
+    const dx = parent.rect.hcenter - child.rect.hcenter;
+    const dy = parent.rect.bottom - child.rect.miny + 2;
+    translateAll( child, dx, dy );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function placeAbove( child, parent ) {
+    const dx = parent.rect.hcenter - child.rect.hcenter;
+    const dy = parent.rect.top - child.rect.height - 2;
+    translateAll( child, dx, dy );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+export function translateAll( node, dx, dy ) {
+    if ( ! node ) return;
+    node.rect.translate( dx, dy );
+    for ( const child of node.children ) {
+        translateAll( child, dx, dy );
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function removeTranslation( node ) {
+    if ( ! node ) return;
+    translateAll( node, -node.rect.x, -node.rect.y );
 }
 
 
@@ -51,23 +95,6 @@ function rasterizeChildren( node ) {
 
     return pixmap;
 
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-export function translateAll( node, dx, dy ) {
-    if ( ! node ) return;
-    node.rect.translate( dx, dy );
-    for ( const child of node.children ) {
-        translateAll( child, dx, dy );
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-function removeTranslation( node ) {
-    if ( ! node ) return;
-    translateAll( node, -node.rect.x, -node.rect.y );
 }
 
 
@@ -315,26 +342,6 @@ function rasterizeUnary( node ) {
 }
 
 
-const VerticalScripts = [ "lim", "sum", "prod" ];
-Object.freeze( VerticalScripts );
-
-
-////////////////////////////////////////////////////////////////////////////////
-function placeBelow( child, parent ) {
-    const dx = parent.rect.hcenter - child.rect.hcenter;
-    const dy = parent.rect.bottom - child.rect.miny + 2;
-    translateAll( child, dx, dy );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-function placeAbove( child, parent ) {
-    const dx = parent.rect.hcenter - child.rect.hcenter;
-    const dy = parent.rect.top - child.rect.height - 2;
-    translateAll( child, dx, dy );
-}
-
-
 ////////////////////////////////////////////////////////////////////////////////
 function rasterizeScript( node ) {
 
@@ -421,6 +428,32 @@ function rasterizeExpression( node ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+function rasterizeLines( node ) {
+
+    const pixmap = createPixmapNode( Parser.NodeTypes.LINES );
+
+    for ( const child of node.children ) {
+
+        const childPixmap = rasterize( child );
+        hcenter( childPixmap );
+        placeBelow( childPixmap, pixmap );
+
+        //  empty line
+        if ( child.children.length === 0 ) {
+            childPixmap.rect.maxy += 3;
+        }
+
+        pixmap.children.push( childPixmap );
+        pixmap.rect.includeRect( childPixmap.rect );
+
+    }
+
+    return pixmap;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 export function rasterize( node ) {
     if ( ! node ) return undefined;
     if ( node.type == Parser.NodeTypes.SYMBOL ) return rasterizeSymbol( node );
@@ -431,5 +464,6 @@ export function rasterize( node ) {
     if ( node.type == Parser.NodeTypes.SCRIPT ) return rasterizeScript( node );
     if ( node.type == Parser.NodeTypes.FRACTION ) return rasterizeFraction( node );
     if ( node.type == Parser.NodeTypes.EXPRESSION ) return rasterizeExpression( node );
+    if ( node.type == Parser.NodeTypes.LINES ) return rasterizeLines( node );
     return undefined;
 }

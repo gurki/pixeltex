@@ -70,8 +70,8 @@ export function render( node, context ) {
 
     const size = Math.min( Math.floor( ( w - 2 * margin ) / node.rect.width ), maxSize );
 
-    const x0 = Math.ceil( cx / size - 0.5 * node.rect.width );
-    const y0 = Math.ceil( cy / size - 0.5 * node.rect.height );
+    const x0 = Math.ceil( cx / size - 0.5 * node.rect.width - node.rect.minx );
+    const y0 = Math.ceil( cy / size - 0.5 * node.rect.height - node.rect.miny );
 
     Rasterizer.translateAll( node, x0, y0 );
 
