@@ -1,14 +1,9 @@
 # pixeltex 👌
 
-<style>
-    img { border-radius:3px; filter:drop-shadow(0 0 4px #222); }
-    #teaser { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:10px; }
-</style>
-<link rel="stylesheet" type="text/css" href="styles/footer.css">
-<div id="teaser">
-    <img src="imgs/pixeltex.png"></img>
-    <img src="imgs/minigent.png"></img>
-</div>
+<p align="center">
+    <img src="imgs/pixeltex.png" width=49% style="border-radius:3px; filter:drop-shadow(0 0 4px #222);"></img>
+    <img src="imgs/minigent.png" width=49% style="border-radius:3px; filter:drop-shadow(0 0 4px #222);"></img>
+</p>
 
 [`PIXELTEX`](https://gurki.github.io/pixeltex) - a fun little latex and emoji pixel typesetter<br>
 [`MINIGENT`](https://gurki.github.io/minigent) - an extensive <u title="mostly; extended set also includes 2x4, 2x5, 3x5, 4x4, 5x4 for math and other symbols">3x4</u> pixel font for miniature typesetting<br>
@@ -59,10 +54,6 @@ Cheers and best ✌️.
 
 <br>
 
-<footer>
-    <div class="icon-row">
-        <div class="small-icon" id="btc-icon"><div class="qrcode" id="btc-qrcode"></div></div>
-        <div class="small-icon" id="eth-icon"><div class="qrcode" id="eth-qrcode"></div></div>
-        <div class="small-icon" id="rvn-icon"><div class="qrcode" id="rvn-qrcode"></div></div>
-    </div>
-</footer>
+[![](imgs/btc-icon-small.png)](imgs/btc.png)
+[![](imgs/eth-icon-small.png)](imgs/eth.png)
+[![](imgs/rvn-icon-small.png)](imgs/rvn.png)
