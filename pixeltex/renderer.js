@@ -30,6 +30,9 @@ function renderAt( node, context, size, fill=undefined ) {
     else if ( node.tokenType === Tokenizer.Types.MATH ) context.fillStyle = colors.cyan;
     else if ( node.token && ( node.token.data in Tokenizer.BracketLookup ) ) context.fillStyle = colors.green;
     else if ( node.tokenType === Tokenizer.Types.PUNCTUATION ) context.fillStyle = colors.cyan;
+    else if ( node.tokenType === Tokenizer.Types.GEOMETRY ) context.fillStyle = colors.cyan;
+    else if ( node.tokenType === Tokenizer.Types.LOGIC ) context.fillStyle = colors.cyan;
+    else if ( node.tokenType === Tokenizer.Types.CURRENCY ) context.fillStyle = colors.green;
     else if ( node.tokenType === Tokenizer.Types.SMILEY ) context.fillStyle = colors.yellow;
     else if ( node.tokenType === Tokenizer.Types.EMOJI ) context.fillStyle = colors.yellow;
     else if ( node.nodeType === Parser.NodeTypes.FRACTION ) context.fillStyle = colors.green;
@@ -60,21 +63,16 @@ export function render( node, context ) {
     const cx = Math.floor( 0.5 * w );
     const cy = Math.floor( 0.5 * h );
 
-    if ( ! node ) {
-    //     context.fillStyle = colors.red;
-    //     context.textAlign = "center";
-    //     context.font = "32px sans-serif";
-    //     context.fillText( "invalid expression", cx, cy );
-        return;
-    }
+    if ( ! node ) return;
 
-    const size = Math.min( Math.floor( ( w - 2 * margin ) / node.rect.width ), maxSize );
+    const sizew = Math.min( Math.floor( ( w - 2 * margin ) / node.rect.width ), maxSize );
+    const sizeh = Math.min( Math.floor( ( h - 2 * margin ) / node.rect.height ), maxSize );
+    const size = Math.min( sizew, sizeh );
 
     const x0 = Math.ceil( cx / size - 0.5 * node.rect.width - node.rect.minx );
     const y0 = Math.ceil( cy / size - 0.5 * node.rect.height - node.rect.miny );
 
     Rasterizer.translateAll( node, x0, y0 );
-
     renderAt( node, context, size );
 
 }

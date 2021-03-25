@@ -6,14 +6,15 @@
 
 .tex-container {
     display: grid;
-    grid-template-rows: 200px auto;
+    grid-template-rows: 240px auto;
     gap: 0px;
+    position: relative;
 }
 
 .button-row {
     margin: 10px;
     display: grid;
-    grid-template-columns: repeat( 4, auto );
+    grid-template-columns: repeat( 6, auto );
     justify-items: center;
     align-items: center;
 }

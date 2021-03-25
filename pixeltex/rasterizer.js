@@ -5,6 +5,7 @@ import BoundingRect from './boundingrect.js'
 
 
 const spacing = 1;
+const lineSpacing = 2;
 const ignoreWhitespace = false;
 const limits = true;
 
@@ -45,6 +46,13 @@ function placeAbove( child, parent ) {
     const dx = parent.rect.hcenter - child.rect.hcenter;
     const dy = parent.rect.top - child.rect.height - 2;
     translateAll( child, dx, dy );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function placeRightOf( child, parent ) {
+    const dx = parent.rect.maxx - child.rect.minx + 2;
+    translateAll( child, dx, 0 );
 }
 
 
@@ -276,10 +284,12 @@ function rasterizeUnaryNoArg( node ) {
 
     if ( node.subtype === "sum" ) {
         const token = { type: Tokenizer.Types.GREEK_LETTER, data: "Sigma" };
+        token.tokenType = Tokenizer.Types.FUNCTION;
         return rasterizeToken( token );
     }
     else if ( node.subtype === "prod" ) {
         const token = { type: Tokenizer.Types.GREEK_LETTER, data: "Pi" };
+        token.tokenType = Tokenizer.Types.FUNCTION;
         return rasterizeToken( token );
     }
     else if ( node.subtype === "int" ) {
@@ -298,11 +308,25 @@ function rasterizeUnaryNoArg( node ) {
         return pixmap;
 
     } else {
+
         const tokens = [...node.subtype].map( c => { return { type: Tokenizer.Types.LETTER, data: c }; } );
-        const ast = Parser.parse( tokens );
-        const pixmap = rasterizeChildren( ast );
-        setChildType( pixmap, Tokenizer.Types.FUNCTION );
+
+        let pixmap = createPixmapNode( Parser.NodeTypes.UNARY );
+
+        for ( const token of tokens ) {
+
+            const tokenPixmap = rasterizeToken( token );
+            tokenPixmap.tokenType = Tokenizer.Types.FUNCTION;
+
+            placeRightOf( tokenPixmap, pixmap );
+            pixmap.children.push( tokenPixmap );
+            pixmap.rect.includeRect( tokenPixmap.rect );
+
+        }
+
+        translateAll( pixmap, -pixmap.rect.minx, 0 );
         return pixmap;
+
     }
 
 }
@@ -311,7 +335,7 @@ function rasterizeUnaryNoArg( node ) {
 ////////////////////////////////////////////////////////////////////////////////
 function rasterizeUnary( node ) {
 
-    const argPixmap = ( node.children.length ) > 0 ? rasterize( node.children[0] ) : undefined;
+    const argPixmap = ( node.children.length > 0 ) ? rasterize( node.children[0] ) : undefined;
 
     if ( node.subtype === "sqrt" ) {
         if ( argPixmap ) return wrapSqrt( argPixmap );
@@ -324,7 +348,6 @@ function rasterizeUnary( node ) {
     if ( Tokenizer.Functions.includes( '\\' + node.subtype ) && node.subtype !== "sqrt" ) {
 
         const pixmap = rasterizeUnaryNoArg( node );
-        pixmap.nodeType = Parser.NodeTypes.UNARY;
 
         if ( argPixmap ) {
             translateAll( argPixmap, pixmap.rect.width + 1 - argPixmap.rect.minx, 0 );
@@ -437,10 +460,11 @@ function rasterizeLines( node ) {
         const childPixmap = rasterize( child );
         hcenter( childPixmap );
         placeBelow( childPixmap, pixmap );
+        childPixmap.rect.maxy += lineSpacing - 1;
 
         //  empty line
         if ( child.children.length === 0 ) {
-            childPixmap.rect.maxy += 3;
+            childPixmap.rect.maxy += 2;
         }
 
         pixmap.children.push( childPixmap );

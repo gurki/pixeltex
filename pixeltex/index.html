@@ -17,9 +17,10 @@
                         id="tex-input"
                         v-model="input"
                         @input="inputChanged"
-                        placeholder="\left( \frac{x_i}{\sqrt{y}} \right) \cos x^2"
+                        placeholder="\left(\frac{x_i}{\sqrt{y}}\right)\cos{x^2} \neq 5  :thumbsup:"
                         autofocus
                     ></textarea>
+                    <button class="material-icons icon-button top-right" @click="clear">delete</button>
                     <div id="tex-output">
                         <canvas id="tex-canvas" width=800px height=400px></canvas>
                         <button class="material-icons icon-button top-right" @click="saveImage">save</button>
@@ -29,8 +30,10 @@
                 <div class="button-row">
                     <button class="text-button" @click="showExample(1)">Text</button>
                     <button class="text-button" @click="showExample(2)">Greeks</button>
-                    <button class="text-button" @click="showExample(3)">Latex</button>
-                    <button class="text-button" @click="showExample(4)">Frickin' Latex</button>
+                    <button class="text-button" @click="showExample(3)">Symbols</button>
+                    <button class="text-button" @click="showExample(4)">Emojis</button>
+                    <button class="text-button" @click="showExample(5)">Latex</button>
+                    <button class="text-button" @click="showExample(6)">Frickin' Latex</button>
                 </div>
                 <a id="link"></a>
             </div>
