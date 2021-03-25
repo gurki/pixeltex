@@ -284,12 +284,10 @@ function rasterizeUnaryNoArg( node ) {
 
     if ( node.subtype === "sum" ) {
         const token = { type: Tokenizer.Types.GREEK_LETTER, data: "Sigma" };
-        token.tokenType = Tokenizer.Types.FUNCTION;
         return rasterizeToken( token );
     }
     else if ( node.subtype === "prod" ) {
         const token = { type: Tokenizer.Types.GREEK_LETTER, data: "Pi" };
-        token.tokenType = Tokenizer.Types.FUNCTION;
         return rasterizeToken( token );
     }
     else if ( node.subtype === "int" ) {
@@ -348,6 +346,7 @@ function rasterizeUnary( node ) {
     if ( Tokenizer.Functions.includes( '\\' + node.subtype ) && node.subtype !== "sqrt" ) {
 
         const pixmap = rasterizeUnaryNoArg( node );
+        pixmap.nodeType = Parser.NodeTypes.UNARY;
 
         if ( argPixmap ) {
             translateAll( argPixmap, pixmap.rect.width + 1 - argPixmap.rect.minx, 0 );
