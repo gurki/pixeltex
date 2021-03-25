@@ -39,7 +39,7 @@
 .icon-row {
     height: 100%;
     display: grid;
-    grid-template-columns: repeat( 6, auto );
+    grid-template-columns: repeat( 7, auto );
     justify-content: center;
     align-content: center;
     gap: 10px;

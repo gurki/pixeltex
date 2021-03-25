@@ -71,7 +71,7 @@ h3 {
     color: #fcfefa;
     background-color: transparent;
     border: none;
-    z-index: 5;
+    z-index: 2;
 }
 
 .icon-button:hover {
