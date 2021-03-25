@@ -8,11 +8,10 @@ body {
     min-height: 100vh;
     width: 100%;
     margin: 0;
+    text-align: center;
 
     display: grid;
     grid-template-rows: auto 1fr auto;
-
-    text-align: center;
 }
 
 header{
@@ -41,11 +40,11 @@ br {
 }
 
 a {
-    color: #dd2c00;
+    color: #fffa6b;
 }
 
 a:hover {
-    color: #8d1c00;
+    color: #ceba09;
 }
 
 h1 {
