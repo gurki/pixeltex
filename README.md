@@ -6,8 +6,8 @@
 </style>
 <link rel="stylesheet" type="text/css" href="styles/footer.css">
 <div id="teaser">
-    <img src="screenshots/2021-03-24_example-01.png"></img>
-    <img src="screenshots/2021-03-25_minigent-excerpt.png"></img>
+    <img src="imgs/pixeltex.png"></img>
+    <img src="imgs/minigent.png"></img>
 </div>
 
 [`PIXELTEX`](https://gurki.github.io/pixeltex) - a fun little latex and emoji pixel typesetter<br>
