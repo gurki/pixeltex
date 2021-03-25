@@ -41,6 +41,7 @@ br {
 
 a {
     color: #fffa6b;
+    text-decoration: none;
 }
 
 a:hover {
