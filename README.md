@@ -1,13 +1,9 @@
 # pixeltex 👌
 
-<style>
-    img { border-radius:3px; filter:drop-shadow(0 0 4px #222); }
-    #teaser { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:10px; }
-</style>
-<link rel="stylesheet" type="text/css" href="styles/footer.css">
-<div id="teaser">
-    <img src="imgs/pixeltex.png"></img>
-    <img src="imgs/minigent.png"></img>
+<!-- <link rel="stylesheet" type="text/css" href="styles/footer.css"> -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:10px;">
+    <img src="imgs/pixeltex.png" style="border-radius:3px; filter:drop-shadow(0 0 4px #222);"></img>
+    <img src="imgs/minigent.png" style="border-radius:3px; filter:drop-shadow(0 0 4px #222);"></img>
 </div>
 
 [`PIXELTEX`](https://gurki.github.io/pixeltex) - a fun little latex and emoji pixel typesetter<br>
@@ -59,10 +55,8 @@ Cheers and best ✌️.
 
 <br>
 
-<footer>
-    <div class="icon-row">
-        <div class="small-icon" id="btc-icon"><div class="qrcode" id="btc-qrcode"></div></div>
-        <div class="small-icon" id="eth-icon"><div class="qrcode" id="eth-qrcode"></div></div>
-        <div class="small-icon" id="rvn-icon"><div class="qrcode" id="rvn-qrcode"></div></div>
-    </div>
-</footer>
+<!-- <div align=center> -->
+[<img src=imgs/btc-icon.png width=28/>](imgs/btc.png)
+[<img src=imgs/eth-icon.png width=28/>](imgs/eth.png)
+[<img src=imgs/rvn-icon.png width=28/>](imgs/rvn.png)
+<!-- </div> -->
