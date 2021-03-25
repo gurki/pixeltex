@@ -4,7 +4,6 @@
     min-width: 400px;
     margin: auto;
     text-align: center;
-    padding-bottom: 10%;
 }
 
 .set-container {
@@ -67,4 +66,11 @@
     grid-column: 1 / span 2;
     color: #d1d5e0;
     word-wrap: break-word;
+}
+
+.license {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    filter: drop-shadow( -1px 3px 10px #191d27 );
 }

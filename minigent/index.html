@@ -4,16 +4,20 @@
         <title>MiniGent</title>
         <script src="https://unpkg.com/vue"></script>
         <link rel="stylesheet" type="text/css" href="../common.css"/>
+        <link rel="stylesheet" type="text/css" href="../footer.css"/>
         <link rel="stylesheet" type="text/css" href="minigent.css"/>
     </head>
     <body>
-        <a class="license" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-            <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
-        </a>
+        <header>
+            <h1 id="title">MINIGENT</h1>
+            <h3>an extensive <u title="mostly; extended set also includes 2x4, 2x5, 3x5, 4x4, 5x4 for math and other symbols">3x4</u> pixel font for miniature typesetting</h3>
+            <a class="license" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+            </a>
+        </header>
+
         <div id="app">
             <div class="minigent-container">
-                <h1 class="title">MINIGENT</h1>
-                <div class="subtitle">an extensive <u title="mostly; extended set also includes 2x4, 2x5, 3x5, 4x4, 5x4 for math and other symbols">3x4</u> pixel font for miniature typesetting</div>
                 <div v-for="(set, key) in font">
                     <h1>{{key}}</h1>
                     <div class="set-container">
@@ -26,7 +30,24 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <h2>Take a look at <a href="../pixeltex/">PIXELTEX</a> to see it in action!</h2>
+            <br>
         </div>
+
+        <footer>
+            <div class="icon-row">
+                <a class="github-button" href="https://github.com/gurki/pixeltex" data-show-count="true" data-size="large" aria-label="Star gurki/pixeltex on GitHub">Star</a>
+                <a href="https://twitter.com/tobiasgurdan?ref_src=pixeltex" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tobiasgurdan</a>
+                <span></span>
+                <div class="small-icon" id="btc-icon"><div class="qrcode" id="btc-qrcode"></div></div>
+                <div class="small-icon" id="eth-icon"><div class="qrcode" id="eth-qrcode"></div></div>
+                <div class="small-icon" id="rvn-icon"><div class="qrcode" id="rvn-qrcode"></div></div>
+            </div>
+        </footer>
+
         <script type=module src=minigent.js></script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </body>
 </html>

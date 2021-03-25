@@ -1,17 +1,34 @@
-html {
-    height: 100%;
-}
-
 body {
     font-family: Helvetica Neue, Arial, sans-serif;
     font-size: 14px;
     color: #fcfefa;
     background: #303441;
-    margin: 5%;
+    position: relative;
+
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    text-align: center;
+}
+
+header{
+    text-align: center;
+    min-height:50px;
+    position: relative;
+}
+
+footer{
+    min-height:50px;
+    background-color: #454b61;
+    box-shadow: 0 3px 10px 1px #191d27;
 }
 
 button:hover {
-    box-shadow: -5px 5px 15px 3px #191d27;
+    box-shadow: -5px 5px 15px 2px #191d27;
     transform: scale( 1.1 );
 }
 
@@ -19,31 +36,30 @@ button:focus {
     outline: 0;
 }
 
-#app {
-    width: 100%;
-    height: 100%;
+br {
+    line-height: 100%;
+}
+
+a {
+    color: #dd2c00;
+}
+
+a:hover {
+    color: #8d1c00;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h3 {
+    margin-top: -1.5rem;
+    color: #787f97;
 }
 
 ::placeholder {
     color: #787f97;
     opacity: 0.5;
-}
-
-.title {
-    font-size: 3em;
-    color: #fffa6b;
-}
-
-.subtitle {
-    margin-top: -2em;
-    margin-bottom: 2em;
-    color: #787f97;
-}
-
-.license {
-    position: absolute;
-    right: 5%;
-    top: 5%;
 }
 
 .top-right {
@@ -70,7 +86,11 @@ button:focus {
     background-color: #454b61;
     color: #fcfefa;
     border-radius: 3px;
-    box-shadow: -3px 3px 10px 1px #191d27;
+    box-shadow: -1px 3px 6px 0px #191d27;
     border: 1px solid #191d27;
     transition: box-shadow transform;
+}
+
+#title {
+    color: #fffa6b;
 }

@@ -23,9 +23,7 @@ var app = new Vue({
             const canvasHeight = this.ctx.canvas.clientHeight;
 
             this.ctx.fillStyle = "#2c2f3a";
-            this.ctx.strokeStyle = "#191d27";
             this.ctx.fillRect( 0, 0, canvasWidth, canvasHeight );
-            this.ctx.strokeRect( 0, 0, canvasWidth, canvasHeight );
 
             const tokens = Tokenizer.tokenize( this.input, this.codes );
             const ast = Parser.parse( tokens );

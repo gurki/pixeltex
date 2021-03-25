@@ -5,13 +5,17 @@
         <script src="https://unpkg.com/vue"></script>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" type="text/css" href="../common.css"/>
+        <link rel="stylesheet" type="text/css" href="../footer.css"/>
         <link rel="stylesheet" type="text/css" href="pixeltex.css"/>
     </head>
     <body>
+        <header>
+            <h1 id="title">PIXELTEX</h1>
+            <h3 class="subtitle">a fun little latex and emoji pixel typesetter</h3>
+        </header>
+
         <div id="app">
             <div class="pixeltex-container">
-                <h1 class="title">PIXELTEX</h1>
-                <div class="subtitle">a fun little latex and emoji pixel typesetter</div>
                 <div class="tex-container">
                     <textarea
                         id="tex-input"
@@ -37,7 +41,24 @@
                 </div>
                 <a id="link"></a>
             </div>
+            <br>
+            <h2>Take a look at <a href="../minigent/">MINIGENT</a> to browse the whole font!</h2>
+            <br>
         </div>
+
+        <footer>
+            <div class="icon-row">
+                <a class="github-button" href="https://github.com/gurki/pixeltex" data-show-count="true" data-size="large" aria-label="Star gurki/pixeltex on GitHub">Star</a>
+                <a href="https://twitter.com/tobiasgurdan?ref_src=pixeltex" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tobiasgurdan</a>
+                <span></span>
+                <div class="small-icon" id="btc-icon"><div class="qrcode" id="btc-qrcode"></div></div>
+                <div class="small-icon" id="eth-icon"><div class="qrcode" id="eth-qrcode"></div></div>
+                <div class="small-icon" id="rvn-icon"><div class="qrcode" id="rvn-qrcode"></div></div>
+            </div>
+        </footer>
+
         <script type=module src=pixeltex.js></script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </body>
 </html>
