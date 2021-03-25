@@ -25,6 +25,7 @@
     left: -80px;
     bottom: 40px;
 
+    image-rendering: pixelated;
     filter: drop-shadow( -1px 3px 10px #191d27 );
 }
 
