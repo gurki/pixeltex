@@ -46,8 +46,8 @@ var app = new Vue({
             if ( id == 2 ) this.input = "GREEK LETTERS?\n\n\\alpha\\beta\\gamma\\delta\\xi\\omega \\Alpha\\Beta\\Gamma\\Xi\\Delta\\Omega\n\nNICE :thumbsup:";
             if ( id == 3 ) this.input = "There's a whole ton of\nsymbols as well! Including:\n\n\\pm\\neq\\partial\\nabla\\forall\\therefore\\propto\\permil\\measuredangle\\nmid\\cent\\yen\\currency\n\nYou can even do logic stuff:\n\nG(\\negx)\\rightarrow\\forall(\\exists\\phi:P(\\phi)\\rightarrow\\phi(x))";
             if ( id == 4 ) this.input = "Oh yeah you heard right :smirk:\n\nHm? :raised_eyebrow:\nOooh! :astonished:\nSo koool ... :drooling_face:\nLove it! :heart:\n:thumbsup: :ok_hand:";
-            if ( id == 5 ) this.input = "It even supports the most relevant LaTeX\ncommands including \\frac{frac}{tions}, \\left(brackets\\right), \\sqrt{root},\nfunctions like \\cos or \\log, and _{sub}/^{super}script.\nThere's also some color coding :grinning:.\n\nEquation 1.                                     \na) c=\\pm\\sqrt{a^2+b^2}\nb) \\gamma_i:=1+\\left(\\frac{x}{y}\\right)^2";
-            if ( id == 6 ) this.input = "what's happening ...\n\n\\sqrt{3\\left(\\frac{a}{\\log{b}}\\right)^2_i}=4\\sum_{i=0}^{n}(u_i\\cdotv_i)+\\int_1^3x\\dx-\\left(\\lim_{n\\rightarrow\\infty}\\frac{1}{n^{-2}}\\right)";
+            if ( id == 5 ) this.input = "Basic LaTeX support incl. \\left(brackets\\right), \\sqrt{root},\n\\frac{frac}{tions}, commands like \\cos, \\log, \\lim, \\sum, \\prod, \\int_{},\n\\overline{over}- & \\underline{under}line, and _{sub}/^{super}script.\nThere's also some color coding :grinning:.\n\nEquation 1.                                                       \na) c=\\pm\\sqrt{a^2+b^2}\nb) \\overline{\\gamma_i}:=1+\\left(\\frac{x}{y}\\right)^2";
+            if ( id == 6 ) this.input = "what's happening ...\n\n\n\\sqrt{3\\left(\\frac{\\frac{a}{\\left(\\theta+\\overline{\\omega}\\right)x_n}}{\\log{b}}\\right)^2_i}=4\\sum_{i=0}^{n}(u_i\\cdotv_i)+\\int_1^3x\\dx-\\left(\\lim_{n\\rightarrow\\infty}\\frac{\\overline{\\gamma\\xi}}{n^{-2}}\\right)";
         }
     },
     watch: {
