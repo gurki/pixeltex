@@ -54,6 +54,6 @@ Cheers and best ✌️.
 
 <br>
 
-[<img src=imgs/btc-icon.png height=28/>](imgs/btc.png)
-[<img src=imgs/eth-icon.png height=28/>](imgs/eth.png)
-[<img src=imgs/rvn-icon.png height=28/>](imgs/rvn.png)
+[![](imgs/btc-icon-small.png)](imgs/btc.png)
+[![](imgs/eth-icon-small.png)](imgs/eth.png)
+[![](imgs/rvn-icon-small.png)](imgs/rvn.png)
