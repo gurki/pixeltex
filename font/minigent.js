@@ -1,3 +1,11 @@
+// MiniGent (c) by Tobias Gurdan
+//
+// MiniGent is licensed under a
+// Creative Commons Attribution 4.0 International License.
+//
+// You should have received a copy of the license along with this
+// work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+
 export const MiniGent = {
     "Latin Alphabet": {
         'A': { bits: [0,1,0,1,0,1,1,1,1,1,0,1], unicode: "U+0041", name: "Latin Capital Letter A", symbol: 'A' },
