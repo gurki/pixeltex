@@ -46,11 +46,11 @@
     gap: 10px;
 }
 
-#btc-icon { background-image: url("../imgs/btc-icon.png"); }
+#btc-icon { background-image: url("../imgs/btc-icon-small.png"); }
 #btc-qrcode { background-image: url("../imgs/btc.png"); }
 
-#eth-icon { background-image: url("../imgs/eth-icon.png"); }
+#eth-icon { background-image: url("../imgs/eth-icon-small.png"); }
 #eth-qrcode { background-image: url("../imgs/eth.png"); }
 
-#rvn-icon { background-image: url("../imgs/rvn-icon.png"); }
+#rvn-icon { background-image: url("../imgs/rvn-icon-small.png"); }
 #rvn-qrcode { background-image: url("../imgs/rvn.png"); }
