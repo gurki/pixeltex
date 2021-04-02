@@ -72,7 +72,7 @@ export const MiniGent = {
         '6': { bits: [0,1,1,1,0,0,1,1,1,1,1,1], unicode: "U+0036", name: "Digit Six", symbol: '6' },
         '7': { bits: [1,1,1,0,0,1,0,1,0,0,1,0], unicode: "U+0037", name: "Digit Seven", symbol: '7' },
         '8': { bits: [1,1,1,1,1,1,1,0,1,1,1,1], unicode: "U+0038", name: "Digit Eight", symbol: '8' },
-        '9': { bits: [1,1,1,1,0,1,0,1,1,1,1,1], unicode: "U+0039", name: "Digit Nine", symbol: '9' },
+        '9': { bits: [1,1,1,1,1,1,0,0,1,1,1,0], unicode: "U+0039", name: "Digit Nine", symbol: '9' },
     },
 
     "Greek Alphabet": {
