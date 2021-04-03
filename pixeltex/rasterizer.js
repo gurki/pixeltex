@@ -10,7 +10,14 @@ const ignoreWhitespace = false;
 const limits = true;
 
 const VerticalScripts = [ "lim", "sum", "prod" ];
+const Alignment = {
+    LEFT: "Left",
+    CENTER: "Center",
+    RIGHT: "Right",
+};
+
 Object.freeze( VerticalScripts );
+Object.freeze( Alignment );
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,10 +41,17 @@ function hcenter( node ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-function placeBelow( child, parent ) {
-    const dx = parent.rect.hcenter - child.rect.hcenter;
+function placeBelow( child, parent, alignment = Alignment.LEFT ) {
+
     const dy = parent.rect.bottom - child.rect.miny + 2;
+    const dx = (
+        alignment === Alignment.LEFT ? 0 :
+        alignment === Alignment.CENTER ? parent.rect.hcenter - child.rect.hcenter :
+        -child.rect.maxx
+    );
+
     translateAll( child, dx, dy );
+
 }
 
 
@@ -266,21 +280,6 @@ function wrapUnder( pixmap ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-function setChildType( node, type ) {
-
-    if ( node.children.length === 0 ) {
-        node.tokenType = type;
-        return;
-    }
-
-    for ( const child of node.children ) {
-        setChildType( child, type );
-    }
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 function rasterizeUnaryNoArg( node ) {
 
     if ( node.subtype === "sum" ) {
@@ -458,8 +457,8 @@ function rasterizeLines( node ) {
     for ( const child of node.children ) {
 
         const childPixmap = rasterize( child );
-        hcenter( childPixmap );
-        placeBelow( childPixmap, pixmap );
+        // hcenter( childPixmap );
+        placeBelow( childPixmap, pixmap, Alignment.CENTER );
         childPixmap.rect.maxy += lineSpacing - 1;
 
         //  empty line
