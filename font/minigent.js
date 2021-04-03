@@ -182,7 +182,7 @@ export const MiniGent = {
         'sum': { bits: [1,1,1,1,0,0,0,1,0,1,1,1,], unicode: "U+2211", name: "N-Ary Summation", symbol: '∑', code: "\\sum" },
         'prod': { bits: [1,1,1,1,0,1,1,0,1,1,0,1], unicode: "U+220F", name: "N-Ary Product", symbol: '∏', code: "\\prod" },
         'sqrt': { bits: [0,1,1,0,1,0,1,1,0,0,1,0], unicode: "U+221A", name: "Square Root", symbol: '√', code: "\\sqrt" },
-        'partial': { bits: [1,1,0, 0,1,1, 1,0,1, 0,1,0], unicode: "U+2207", name: "Partial Differential", symbol: '∂', code: "\\partial" },
+        'partial': { bits: [1,1,0, 0,1,1, 1,0,1, 0,1,0], unicode: "U+2202", name: "Partial Differential", symbol: '∂', code: "\\partial" },
         'nabla': { bits: [1,1,1,1,0,1,1,0,1,0,1,0], unicode: "U+2207", name: "Nabla", symbol: '∇', code: "\\nabla" },
         'Bbbone': { bits: [0,1,1,1,1,1,0,1,1,1,1,1], unicode: "U+1D7D9", name: "Mathematical Double-Struck Digital One", symbol: '𝟙', code: "\\Bbbone" },
         'lceil': { bits: [0,1,1,0,1,0,0,1,0,0,1,0], unicode: "U+2308", name: "Left Ceiling", symbol: '⌈', code: "\\lceil" },
@@ -315,4 +315,24 @@ export const MiniGent = {
         // 'v': { bits: [1,0,1,1,0,1,0,1,1,1,1,1], unicode: "U+270C", name: "Victory Hand", symbol: '✌️', code: ":v:" },
         'pray': { bits: [0,1,0,0,1,0,0,1,0,1,1,1], unicode: "U+1F64F", name: "Folded Hands", symbol: '🙏', code: ":pray:" },
     },
+};
+
+
+/**
+ * @param {boolean[]} bits Letter bitmap, starting at top left pixel
+ * @returns {{rows: number, cols: number}} Deduced bitmap size
+ */
+export function getSize( bits ) {
+
+    const numBits = bits.length;
+    const cols = (
+        ( numBits < 12 ) ? 2 :     //  2x4, 2x5
+        ( numBits === 16 ) ? 4 :   //  4x4 arrows
+        ( numBits === 20 ) ? 5 :   //  5x4 infinity, crypto
+        ( numBits === 25 ) ? 5 :   //  5x5 crypto
+        3                       //  3x4, 3x5
+    );
+
+    return { rows: numBits / cols, cols: cols };
+
 };

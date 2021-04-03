@@ -1,4 +1,4 @@
-import { MiniGent } from '../font/minigent.js'
+import { MiniGent, getSize } from '../font/minigent.js'
 import * as Parser from './parser.js'
 import * as Tokenizer from './tokenizer.js'
 import BoundingRect from './boundingrect.js'
@@ -129,19 +129,11 @@ function rasterizeToken( token ) {
 
     if ( ! letter ) return pixmap;
 
-    const cols = (
-        ( letter.bits.length < 12 ) ? 2 :   //  2x4, 2x5
-        ( letter.bits.length === 16 ) ? 4 : //  4x4 arrows
-        ( letter.bits.length === 20 ) ? 5 : //  5x4 infinity, crypto
-        ( letter.bits.length === 25 ) ? 5 : //  5x5 crypto
-        3                                   //  3x4, 3x5
-    );
+    const size = getSize( letter.bits );
 
-    const rows = ( letter.bits.length / cols );
-
-    for ( let dy = 0; dy < rows; dy++ ) {
-        for ( let dx = 0; dx < cols; dx++ ) {
-            const id = dy * cols + dx;
+    for ( let dy = 0; dy < size.rows; dy++ ) {
+        for ( let dx = 0; dx < size.cols; dx++ ) {
+            const id = dy * size.cols + dx;
             if ( ! letter.bits[ id ] ) continue;
             pixmap.coords.push( { x: dx, y: dy} );
             pixmap.rect.include( dx, dy );
