@@ -87,7 +87,7 @@ export const MiniGent = {
         'Iota': { bits: [0,1,0,0,1,0,0,1,0,0,1,0], unicode: "U+0399", name: "Greek Capital Letter Iota", symbol: 'Ι', code: "\\Iota" },
         'Kappa': { bits: [1,0,1,1,1,0,1,0,1,1,0,1], unicode: "U+039A", name: "Greek Capital Letter Kappa", symbol: 'Κ', code: "\\Kappa" },
         'Lambda': { bits: [0,1,0,1,0,1,1,0,1,1,0,1], unicode: "U+039B", name: "Greek Capital Letter Lambda", symbol: 'Λ', code: "\\Lambda" },
-        'Mu': { bits: [0,1,1,1,1,1,1,0,1,1,0,1], unicode: "U+039C", name: "Greek Capital Letter Mu", symbol: 'Μ', code: "\\Mu" },
+        'Mu': { bits: [1,1,0,1,1,1,1,0,1,1,0,1], unicode: "U+039C", name: "Greek Capital Letter Mu", symbol: 'Μ', code: "\\Mu" },
         'Nu': { bits: [0,1,1,1,0,1,1,0,1,1,0,1], unicode: "U+039D", name: "Greek Capital Letter Nu", symbol: 'Ν', code: "\\Nu" },
         'Xi': { bits: [1,1,1,0,0,0,0,1,0,1,1,1], unicode: "U+039E", name: "Greek Capital Letter Xi", symbol: 'Ξ', code: "\\Xi" },
         'Omicron': { bits: [0,1,1,1,0,1,1,0,1,1,1,1], unicode: "U+039F", name: "Greek Capital Letter Omicron", symbol: 'Ο', code: "\\Omicron" },
