@@ -1,0 +1,76 @@
+.minigent-container {
+    max-width: 1400px;
+    width: 90%;
+    min-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.set-container {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat( auto-fill, 120px );
+    grid-auto-rows: auto;
+    gap: 10px;
+}
+
+.letter-container {
+    background-color: #454b61;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 1px 2px 3px #191d27;
+    transition: box-shadow transform;
+}
+
+.letter-container:hover {
+    box-shadow: 1px 2px 20px black;
+    transform: scale( 1.61 );
+}
+
+.letter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 3;
+    gap: 5px;
+}
+
+.letter .unicode {
+    text-align: left;
+    font-size: 1.1em;
+    color: #787f97;
+}
+
+.letter .symbol {
+    text-align: right;
+    font-size: 1.1em;
+    color: #d1d5e0;
+}
+
+.letter .canvas {
+    margin: 10px;
+    justify-self: center;
+    align-self: center;
+    grid-column: 1 / span 2;
+}
+
+.letter .name {
+    font-size: 0.7em;
+    text-align: center;
+    grid-column: 1 / span 2;
+    color: #787f97;
+}
+
+.letter .code {
+    font-weight: bold;
+    text-align: center;
+    grid-column: 1 / span 2;
+    color: #d1d5e0;
+    word-wrap: break-word;
+}
+
+.license {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    filter: drop-shadow( -1px 3px 10px #191d27 );
+}
